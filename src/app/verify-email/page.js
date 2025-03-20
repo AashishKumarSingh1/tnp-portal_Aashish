@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -8,13 +8,33 @@ import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { Mail, ArrowRight } from 'lucide-react'
 
-export default function VerifyEmailPage() {
+// Loading component to show while waiting for the page to load
+function VerifyEmailLoading() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-md mx-auto">
+        <Card className="p-6 md:p-8">
+          <div className="flex flex-col items-center mb-6">
+            <div className="w-16 h-16 rounded-full bg-red-900/10 flex items-center justify-center mb-4">
+              <Mail className="w-8 h-8 text-red-900" />
+            </div>
+            <h1 className="text-2xl font-bold text-center mb-2">Verify Your Email</h1>
+            <p className="text-muted-foreground text-center">Loading verification...</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
+// The main component that uses useSearchParams
+function VerifyEmailContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const email = searchParams.get('email')
   const [otp, setOtp] = useState('')
   const [loading, setLoading] = useState(false)
-  const [countdown, setCountdown] = useState(30) // 5 minutes in seconds
+  const [countdown, setCountdown] = useState(30) // 30 seconds countdown
 
   useEffect(() => {
     if (!email) {
@@ -81,7 +101,7 @@ export default function VerifyEmailPage() {
       }
 
       toast.success('OTP sent successfully!')
-      setCountdown(300) // Reset countdown
+      setCountdown(300) // Reset countdown to 5 minutes
     } catch (error) {
       toast.error(error.message)
     }
@@ -146,4 +166,13 @@ export default function VerifyEmailPage() {
       </div>
     </div>
   )
-} 
+}
+
+// Main component with Suspense boundary
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={<VerifyEmailLoading />}>
+      <VerifyEmailContent />
+    </Suspense>
+  )
+}
