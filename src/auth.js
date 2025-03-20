@@ -54,14 +54,26 @@ export const authOptions = {
           const [user] = await executeQuery({
             query: `
               SELECT 
-                u.*,
-                r.id as role_id,
-                r.name as role_name
-              FROM users u
-              JOIN roles r ON u.role_id = r.id
-              WHERE u.email = ?
-              AND u.is_active = true
-              AND u.is_verified = true
+                s.id,
+          s.user_id,
+          s.full_name,
+          s.roll_number,
+          s.branch,
+          s.current_year,
+          s.cgpa,
+          s.phone,
+          s.secondary_phone,
+          s.passing_year,
+          s.is_email_verified,
+          s.is_verified_by_admin,
+          s.degree_type,
+          s.specialization,
+          s.secondary_email,
+          u.email as primary_email,
+          u.created_at as registration_date
+        FROM students s
+        JOIN users u ON u.id = s.user_id
+        WHERE s.user_id = ?
             `,
             values: [email]
           })
