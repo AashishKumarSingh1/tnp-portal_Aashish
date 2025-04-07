@@ -26,6 +26,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Menu, LayoutDashboard, Users, Activity, ClipboardCheck, LogOut, Settings, User, FileText, ScrollText, Award, Building, Building2, Briefcase, CheckCircle, GraduationCap , BookOpen} from 'lucide-react'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { useState, useEffect } from 'react'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 export function Header() {
   const { data: session } = useSession()
@@ -351,64 +352,110 @@ export function Header() {
             )}
 
             {/* Mobile Menu */}
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                <nav className="flex flex-col gap-4">
-                  <Link
-                    href="/about"
-                    className="block px-2 py-1 text-lg"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    About
-                  </Link>
-                  <Link
-                    href="/statistics"
-                    className="block px-2 py-1 text-lg"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Statistics
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="block px-2 py-1 text-lg"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Contact
-                  </Link>
-                  {session && (
-                    <>
-                      {getMenuItems(session.user.role).map((item) => (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          className="flex items-center px-2 py-1 text-lg"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          {item.icon}
-                          {item.label}
-                        </Link>
-                      ))}
-                      <button
-                        onClick={() => {
-                          setIsOpen(false)
-                          signOut({ callbackUrl: '/login' })
-                        }}
-                        className="flex items-center px-2 py-1 text-lg text-red-600"
+            <div className="md:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-red-900 dark:text-red-500">
+                    <Menu className="h-6 w-6" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[70%] bg-gradient-to-b from-background via-red-900/50 to-red-950/50 dark:from-background dark:via-red-900/50 dark:to-red-950/50 border-l border-red-900/20">
+                  <div className="flex flex-col h-full p-4">
+                    {/* Header Logo Section */}
+                    <div className="flex items-center gap-2 py-4 mb-6 border-b border-red-900/20">
+                      <img 
+                        src="https://www.nitp.ac.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.00e5159e.png&w=256&q=75" 
+                        alt="NITP Logo" 
+                        className="h-8 w-8"
+                      />
+                      <span className="font-bold text-red-900 dark:text-red-500">T&P Cell</span>
+                    </div>
+
+                    {/* Navigation Menu */}
+                    <div className="flex-1 overflow-y-auto">
+                      <Accordion 
+                        type="single" 
+                        collapsible 
+                        className="space-y-2"
                       >
-                        <LogOut className="h-4 w-4 mr-2" />
-                        Log Out
-                      </button>
-                    </>
-                  )}
-                </nav>
-              </SheetContent>
-            </Sheet>
+                        <AccordionItem value="about" className="border-red-900/20">
+                          <AccordionTrigger className="text-red-900 dark:text-red-500 hover:text-red-800 dark:hover:text-red-400 py-3">
+                            About
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <div className="flex flex-col space-y-1 pl-4">
+                              {[
+                                { href: '/about', label: 'About Us' },
+                                { href: '/team', label: 'Our Team' },
+                                { href: '/facilities', label: 'Facilities' },
+                                { href: '/achievements', label: 'Achievements' }
+                              ].map((item) => (
+                                <Link 
+                                  key={item.href}
+                                  href={item.href} 
+                                  className="text-muted-foreground hover:text-red-900 dark:hover:text-red-500 py-3 px-4 rounded-md hover:bg-red-900/10 transition-colors"
+                                >
+                                  {item.label}
+                                </Link>
+                              ))}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+
+                        <AccordionItem value="companies" className="border-red-900/20">
+                          <AccordionTrigger className="text-red-900 dark:text-red-500 hover:text-red-800 dark:hover:text-red-400 py-3">
+                            For Companies
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <div className="flex flex-col space-y-1 pl-4">
+                              {[
+                                { href: '/why-recruit', label: 'Why Recruit?' },
+                                { href: '/procedure', label: 'Procedure' }
+                              ].map((item) => (
+                                <Link 
+                                  key={item.href}
+                                  href={item.href} 
+                                  className="text-muted-foreground hover:text-red-900 dark:hover:text-red-500 py-3 px-4 rounded-md hover:bg-red-900/10 transition-colors"
+                                >
+                                  {item.label}
+                                </Link>
+                              ))}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+
+                      <nav className="mt-4 space-y-1">
+                        {[
+                          { href: '/statistics', label: 'Statistics' },
+                          { href: '/contact', label: 'Contact' }
+                        ].map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className="flex items-center text-red-900 dark:text-red-500 hover:text-red-800 dark:hover:text-red-400 py-3 px-4 rounded-md hover:bg-red-900/10 transition-colors"
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </nav>
+                    </div>
+
+                    {/* Login Button for non-authenticated users */}
+                    {!session && (
+                      <div className="mt-auto pt-4 border-t border-red-900/20">
+                        <Button 
+                          className="w-full bg-red-900 hover:bg-red-800 dark:bg-red-800 dark:hover:bg-red-700"
+                          asChild
+                        >
+                          <Link href="/login">Login</Link>
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>
