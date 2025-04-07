@@ -27,6 +27,7 @@ import { Menu, LayoutDashboard, Users, Activity, ClipboardCheck, LogOut, Setting
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { useState, useEffect } from 'react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import Image from 'next/image'
 
 export function Header() {
   const { data: session } = useSession()
@@ -243,13 +244,24 @@ export function Header() {
       <div className="container px-4 mx-auto">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 md:gap-6">
-            <Link href="/" className="flex items-center space-x-2">
-              <img src="https://www.nitp.ac.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.00e5159e.png&w=256&q=75" alt="NITP Logo" className="h-8 w-8" />
-              <span className="hidden font-bold lg:inline-block">Training & Placement Cell</span>
-              <span className="font-bold lg:hidden">T&P Cell</span>
+            <Link href="/" className="flex items-center space-x-2 group" title="Go to Homepage">
+              <Image
+                src="https://www.nitp.ac.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.00e5159e.png&w=64&q=75"
+                alt="NITP Logo"
+                width={40}
+                height={40}
+                className="h-10 w-10"
+              />
+              <div className="flex flex-col justify-center">
+                <span className="font-bold text-xs md:text-lg leading-tight text-red-700 group-hover:text-black dark:text-red-500 dark:group-hover:text-white transition-colors">
+                  Training & Placement Cell
+                </span>
+                <span className="text-[10px] md:text-sm text-muted-foreground leading-tight">
+                  National Institute of Technology Patna
+                </span>
+              </div>
             </Link>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:block">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -351,7 +363,6 @@ export function Header() {
               </Button>
             )}
 
-            {/* Mobile Menu */}
             <div className="md:hidden">
               <Sheet>
                 <SheetTrigger asChild>
@@ -361,17 +372,24 @@ export function Header() {
                 </SheetTrigger>
                 <SheetContent side="right" className="w-[70%] bg-gradient-to-b from-background via-red-900/50 to-red-950/50 dark:from-background dark:via-red-900/50 dark:to-red-950/50 border-l border-red-900/20">
                   <div className="flex flex-col h-full p-4">
-                    {/* Header Logo Section */}
-                    <div className="flex items-center gap-2 py-4 mb-6 border-b border-red-900/20">
-                      <img 
-                        src="https://www.nitp.ac.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.00e5159e.png&w=256&q=75" 
-                        alt="NITP Logo" 
+                    <Link href="/" className="flex items-center space-x-2 group py-4 mb-6 border-b border-red-900/20">
+                      <Image
+                        src="https://www.nitp.ac.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.00e5159e.png&w=64&q=75"
+                        alt="NITP Logo"
+                        width={32}
+                        height={32}
                         className="h-8 w-8"
                       />
-                      <span className="font-bold text-red-900 dark:text-red-500">T&P Cell</span>
-                    </div>
+                      <div className="flex flex-col justify-center">
+                        <span className="font-bold text-base leading-tight text-red-900 dark:text-red-300">
+                          Training & Placement Cell
+                        </span>
+                        <span className="text-xs text-red-800/80 dark:text-red-300/80 leading-tight">
+                          National Institute of Technology Patna
+                        </span>
+                      </div>
+                    </Link>
 
-                    {/* Navigation Menu */}
                     <div className="flex-1 overflow-y-auto">
                       <Accordion 
                         type="single" 
@@ -441,7 +459,6 @@ export function Header() {
                       </nav>
                     </div>
 
-                    {/* Login Button for non-authenticated users */}
                     {!session && (
                       <div className="mt-auto pt-4 border-t border-red-900/20">
                         <Button 

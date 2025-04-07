@@ -284,20 +284,39 @@ export async function sendTestMail(email) {
 
 export async function sendContactFormEmail(name, email, subject, message) {
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #1a1a1a;">New Contact Form Submission</h2>
-      <div style="background-color: #f5f5f5; padding: 20px; border-radius: 5px;">
-        <p><strong>From:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <h3>Message:</h3>
-        <p style="white-space: pre-wrap;">${message}</p>
-      </div>
-      <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;" />
-      <p style="color: #666; font-size: 12px;">
-        This message was sent from the TNP Cell contact form.
-      </p>
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+    <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">New Contact Form Submission</h2>
     </div>
+    
+    <div style="background-color: #f0e6e6; padding: 20px; border-radius: 5px; border-left: 4px solid #8B3A3A; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+            <tr>
+                <td style="padding: 5px 0; width: 80px; color: #5a3e36; font-weight: 600;">From:</td>
+                <td style="padding: 5px 0; color: #333;">${name}</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px 0; color: #5a3e36; font-weight: 600;">Email:</td>
+                <td style="padding: 5px 0; color: #333;">${email}</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px 0; color: #5a3e36; font-weight: 600;">Subject:</td>
+                <td style="padding: 5px 0; color: #333;">${subject}</td>
+            </tr>
+        </table>
+        
+        <h3 style="color: #8B3A3A; margin: 15px 0 10px 0; font-size: 16px;">Message:</h3>
+        <div style="background-color: #fff; padding: 12px; border-radius: 4px; border: 1px solid #e0d6cc;">
+            <p style="margin: 0; color: #333; line-height: 1.5; white-space: pre-wrap;">${message}</p>
+        </div>
+    </div>
+    
+    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+            This message was sent from the TNP Cell contact form at NIT Patna.
+        </p>
+    </div>
+</div>
   `
 
   try {
@@ -306,7 +325,7 @@ export async function sendContactFormEmail(name, email, subject, message) {
     
     await transporter.sendMail({
       from: settings.from,
-      to: 'kumarashish98526@gmail.com', // Admin email address
+      to: 'kumarashish98526@gmail.com',
       subject: `Contact Form: ${subject}`,
       html
     })
@@ -319,18 +338,36 @@ export async function sendContactFormEmail(name, email, subject, message) {
 
 export async function sendContactConfirmationEmail(email, name) {
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #1a1a1a;">Thank You for Contacting Us</h2>
-      <p>Dear ${name},</p>
-      <p>We have received your message and will get back to you as soon as possible.</p>
-      <p>This is an automated response confirming the receipt of your message.</p>
-      <p style="margin-top: 20px;">Best regards,<br />Training & Placement Cell<br />NIT Patna</p>
-      <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;" />
-      <p style="color: #666; font-size: 12px;">
-        This is an automated email from Training & Placement Cell, NIT Patna.
-        Please do not reply to this email.
-      </p>
+   <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+    <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 15px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Thank You for Contacting Us</h2>
     </div>
+    
+    <p style="color: #333; line-height: 1.6;">Dear ${name},</p>
+    
+    <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+            We have received your message and will get back to you as soon as possible.
+        </p>
+    </div>
+    
+    <p style="color: #555; line-height: 1.6; font-size: 14px;">
+        This is an automated response confirming the receipt of your message.
+    </p>
+    
+    <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+    </div>
+    
+    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+            This is an automated email from Training & Placement Cell, NIT Patna.
+            <br>Please do not reply to this email.
+        </p>
+    </div>
+</div>
   `
 
   try {

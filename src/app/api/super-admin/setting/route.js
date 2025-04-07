@@ -36,35 +36,49 @@ export async function POST(request) {
 
     const data = await request.json()
 
-    // Check if settings exist
-    const existingSettings = await executeQuery({
-      query: 'SELECT id FROM system_settings LIMIT 1'
-    })
+    console.log('Received settings data:', data)
 
-    if (existingSettings) {
-      // Update existing settings
+    const smtp_host = data.smtp_host ?? null
+    const smtp_port = data.smtp_port ? parseInt(data.smtp_port, 10) : null
+    const smtp_secure = data.smtp_secure === true ? 1 : 0
+    const smtp_user = data.smtp_user ?? null
+    const smtp_pass = data.smtp_pass ?? null
+    const smtp_from = data.smtp_from ?? null
+
+    if (smtp_host === null || smtp_port === null || smtp_user === null || smtp_pass === null || smtp_from === null) {
+      console.error('Missing required SMTP fields:', { smtp_host, smtp_port, smtp_user, smtp_pass, smtp_from })
+      return NextResponse.json({ error: 'Missing required SMTP settings fields' }, { status: 400 })
+    }
+
+    const existingSettingsResult = await executeQuery({
+      query: 'SELECT id FROM system_settings ORDER BY id DESC LIMIT 1'
+    })
+    const existingSettingId = existingSettingsResult?.[0]?.id
+
+    if (existingSettingId) {
+      console.log(`Updating settings for ID: ${existingSettingId}`)
       await executeQuery({
         query: `
-            UPDATE system_settings SET 
+            UPDATE system_settings SET
               smtp_host = ?,
               smtp_port = ?,
               smtp_secure = ?,
               smtp_user = ?,
               smtp_pass = ?,
-          smtp_from = ?
-        WHERE id = ?`,
+              smtp_from = ?
+            WHERE id = ?`,
         values: [
-          data.smtp_host,
-          data.smtp_port,
-          data.smtp_secure ? 1 : 0,
-          data.smtp_user,
-          data.smtp_pass,
-          data.smtp_from,
-          existingSettings.id
+          smtp_host,
+          smtp_port,
+          smtp_secure,
+          smtp_user,
+          smtp_pass,
+          smtp_from,
+          existingSettingId
         ]
       })
     } else {
-      // Insert new settings
+      console.log('Inserting new settings')
       await executeQuery({
         query: `
           INSERT INTO system_settings (
@@ -76,28 +90,30 @@ export async function POST(request) {
             smtp_from
           ) VALUES (?, ?, ?, ?, ?, ?)`,
         values: [
-          data.smtp_host,
-          data.smtp_port,
-          data.smtp_secure ? 1 : 0,
-          data.smtp_user,
-          data.smtp_pass,
-          data.smtp_from
+          smtp_host,
+          smtp_port,
+          smtp_secure,
+          smtp_user,
+          smtp_pass,
+          smtp_from
         ]
       })
     }
 
-    //add detail in activity logs
     await executeQuery({
         query: `
             INSERT INTO activity_logs (user_id, action, details)
             VALUES (?, ?, ?)
         `,
-        values: [session.user.id, 'updated_settings', 'SMTP settings updated']
+        values: [session.user.id, 'updated_settings', `SMTP settings ${existingSettingId ? 'updated' : 'created'}`]
     })
 
-    return NextResponse.json({ message: 'Settings updated successfully' })
+    return NextResponse.json({ message: `Settings ${existingSettingId ? 'updated' : 'created'} successfully` })
   } catch (error) {
-    console.error('Error updating settings:', error)
+    console.error('Error processing settings:', error)
+    if (error.message?.includes('Bind parameters must not contain undefined')) {
+       return NextResponse.json({ error: 'Internal Server Error: Undefined value passed to database query.' }, { status: 500 })
+    }
     return NextResponse.json({ error: 'Failed to update settings' }, { status: 500 })
   }
 }

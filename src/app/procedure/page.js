@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { ClipboardList, Calendar, Users, FileCheck, Building2, CheckCircle2 } from 'lucide-react'
+import { ClipboardList, Calendar, Users, FileCheck, Building2, CheckCircle2, MessageCircle } from 'lucide-react'
 
 export const metadata = {
   title: 'Recruitment Procedure - Training & Placement Cell NIT Patna',
@@ -43,19 +43,8 @@ export default function ProcedurePage() {
                 ]
               },
               {
-                icon: Calendar,
-                title: "Step 2: Schedule Allocation",
-                description: "Choose your preferred dates for campus recruitment process.",
-                details: [
-                  "View available slots",
-                  "Select convenient dates",
-                  "Confirm schedule",
-                  "Receive confirmation from T&P cell"
-                ]
-              },
-              {
                 icon: ClipboardList,
-                title: "Step 3: JNF/INF Submission",
+                title: "Step 2: JNF/INF Submission",
                 description: "Submit Job Notification Form (JNF) or Internship Notification Form (INF).",
                 details: [
                   "Download the form template",
@@ -65,6 +54,18 @@ export default function ProcedurePage() {
                 ]
               },
               {
+                icon: Calendar,
+                title: "Step 3: Schedule Allocation",
+                description: "Choose your preferred dates for campus recruitment process.",
+                details: [
+                  "View available slots",
+                  "Select convenient dates",
+                  "Confirm schedule",
+                  "Receive confirmation from T&P cell"
+                ]
+              },
+              
+              {
                 icon: Users,
                 title: "Step 4: Student Applications",
                 description: "Review applications from eligible students.",
@@ -73,6 +74,16 @@ export default function ProcedurePage() {
                   "Review applications",
                   "Shortlist candidates",
                   "Schedule interviews"
+                ]
+              },
+              {
+                icon: Users,
+                title : "Group Discussion Round ( optional )",
+                description: "Conduct a group discussion with the students.",
+                details: [
+                  "Prepare a topic",
+                  "Discuss with students",
+                  "Evaluate candidates"
                 ]
               },
               {
@@ -95,6 +106,16 @@ export default function ProcedurePage() {
                   "Share with T&P cell",
                   "Coordinate joining dates",
                   "Complete documentation"
+                ]
+              },
+              {
+                icon: MessageCircle,
+                title : "Step 7: Company Feedback",
+                description: "Provide feedback on the recruitment process.",
+                details: [
+                  "Provide feedback",
+                  "Share your experience",
+                  "Help us improve"
                 ]
               }
             ].map((step, index) => (

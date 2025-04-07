@@ -104,6 +104,9 @@ const Footer = () => {
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Training & Placement Cell, NIT Patna. All rights reserved.
           </p>
+          <p className="text-sm text-muted-foreground pt-2">
+            Developed by <Link href="/wdc" className="text-red-900 dark:text-red-500 hover:text-red-900 dark:hover:text-red-500">WDC NIT Patna</Link>
+          </p>
         </div>
       </div>
     </footer>

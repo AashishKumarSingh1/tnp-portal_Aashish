@@ -1,6 +1,10 @@
+"use client"
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { ArrowRight, BookOpen, Building2, GraduationCap, Users, Trophy, Briefcase, ChartBar } from 'lucide-react'
+import { useEffect, useState, useRef } from 'react'
+import CompanyCarousel from '@/components/ui/CompanyCarousel'
+
 
 export default function Home() {
   return (
@@ -39,15 +43,15 @@ export default function Home() {
               <div className="mt-2 text-sm text-muted-foreground">Students Placed</div>
             </div>
             <div className="p-6 rounded-lg bg-gradient-to-br from-background to-red-900/10 dark:from-red-950/20 dark:to-red-900/20 text-center hover:shadow-lg transition-all hover:shadow-red-900/10">
-              <div className="text-3xl md:text-4xl font-bold text-red-900 dark:text-red-500">100+</div>
+              <div className="text-3xl md:text-4xl font-bold text-red-900 dark:text-red-500">80+</div>
               <div className="mt-2 text-sm text-muted-foreground">Companies Visited</div>
             </div>
             <div className="p-6 rounded-lg bg-gradient-to-br from-background to-red-900/10 dark:from-red-950/20 dark:to-red-900/20 text-center hover:shadow-lg transition-all hover:shadow-red-900/10">
-              <div className="text-3xl md:text-4xl font-bold text-red-900 dark:text-red-500">50 LPA</div>
+              <div className="text-3xl md:text-4xl font-bold text-red-900 dark:text-red-500">41.37 LPA</div>
               <div className="mt-2 text-sm text-muted-foreground">Highest Package</div>
             </div>
             <div className="p-6 rounded-lg bg-gradient-to-br from-background to-red-900/10 dark:from-red-950/20 dark:to-red-900/20 text-center hover:shadow-lg transition-all hover:shadow-red-900/10">
-              <div className="text-3xl md:text-4xl font-bold text-red-900 dark:text-red-500">12 LPA</div>
+              <div className="text-3xl md:text-4xl font-bold text-red-900 dark:text-red-500">9.9 LPA</div>
               <div className="mt-2 text-sm text-muted-foreground">Average Package</div>
             </div>
           </div>
@@ -105,13 +109,7 @@ export default function Home() {
               Our students have been placed in some of the most prestigious companies across the globe.
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="aspect-square bg-card rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
-                <div className="text-muted-foreground text-sm text-center">Company Logo</div>
-              </div>
-            ))}
-          </div>
+          <CompanyCarousel />
         </div>
       </section>
 
@@ -124,15 +122,15 @@ export default function Home() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-card rounded-lg border p-6 hover:shadow-lg transition-all">
-              <div className="text-sm text-primary mb-2">Posted on 15 March 2024</div>
+              <div className="text-sm text-primary mb-2">Posted on 15 March 2025</div>
               <h3 className="text-xl font-semibold mb-2">Upcoming Placement Drive</h3>
-              <p className="text-muted-foreground mb-4">Major tech companies visiting campus for recruitment in April 2024.</p>
+              <p className="text-muted-foreground mb-4">Major tech companies visiting campus for recruitment in April 2025.</p>
               <Button variant="link" className="p-0" asChild>
                 <Link href="/news/placement-drive">Read More →</Link>
               </Button>
             </div>
             <div className="bg-card rounded-lg border p-6 hover:shadow-lg transition-all">
-              <div className="text-sm text-primary mb-2">Posted on 10 March 2024</div>
+              <div className="text-sm text-primary mb-2">Posted on 10 March 2025</div>
               <h3 className="text-xl font-semibold mb-2">Pre-Placement Talk</h3>
               <p className="text-muted-foreground mb-4">Join us for an interactive session with industry leaders.</p>
               <Button variant="link" className="p-0" asChild>
@@ -140,7 +138,7 @@ export default function Home() {
               </Button>
             </div>
             <div className="bg-card rounded-lg border p-6 hover:shadow-lg transition-all">
-              <div className="text-sm text-primary mb-2">Posted on 5 March 2024</div>
+              <div className="text-sm text-primary mb-2">Posted on 5 March 2025</div>
               <h3 className="text-xl font-semibold mb-2">Training Workshop</h3>
               <p className="text-muted-foreground mb-4">Technical and soft skills workshop scheduled for final year students.</p>
               <Button variant="link" className="p-0" asChild>
@@ -165,7 +163,7 @@ export default function Home() {
                   <Users className="w-6 h-6 text-primary" />
                 </div>
                 <div className="ml-4">
-                  <div className="font-semibold">John Doe</div>
+                  <div className="font-semibold">Shanvi Singh</div>
                   <div className="text-sm text-muted-foreground">Software Engineer, Google</div>
                 </div>
               </div>
@@ -179,7 +177,7 @@ export default function Home() {
                   <Building2 className="w-6 h-6 text-primary" />
                 </div>
                 <div className="ml-4">
-                  <div className="font-semibold">Jane Smith</div>
+                  <div className="font-semibold">Prashant Kumar</div>
                   <div className="text-sm text-muted-foreground">HR Manager, Microsoft</div>
                 </div>
               </div>
@@ -193,7 +191,7 @@ export default function Home() {
                   <GraduationCap className="w-6 h-6 text-primary" />
                 </div>
                 <div className="ml-4">
-                  <div className="font-semibold">Alex Johnson</div>
+                  <div className="font-semibold">Rajesh Kumar</div>
                   <div className="text-sm text-muted-foreground">Alumni, Batch of 2023</div>
                 </div>
               </div>

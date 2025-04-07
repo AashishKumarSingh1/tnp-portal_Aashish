@@ -103,20 +103,21 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                name: "Dr. John Smith",
+                name: "Prof. P. K. Jain",
+                role: "Director, NIT Patna",
+                description: "Leading NIT Patna's vision for excellence in technical education and industry collaboration."
+              },
+              {
+                name: "Dr. Shailesh M Pandey",
                 role: "Training & Placement Officer",
                 description: "Leading the placement initiatives with 15+ years of experience"
               },
               {
-                name: "Prof. Sarah Johnson",
-                role: "Faculty Coordinator",
-                description: "Coordinating between students and industry partners"
+                name: "Dr. Samrat Mukherjee",
+                role: "Dean, Student Welfare",
+                description: "Leading the placement initiatives with 15+ years of experience"
               },
-              {
-                name: "Mr. Robert Wilson",
-                role: "Industry Relations Head",
-                description: "Managing corporate relationships and partnerships"
-              }
+              
             ].map((member, index) => (
               <Card key={index} className="p-6 hover-card bg-gradient-to-br from-background to-red-900/10 dark:from-red-950/20 dark:to-red-900/20">
                 <div className="w-16 h-16 rounded-full bg-red-900/10 flex items-center justify-center mb-4 mx-auto">
