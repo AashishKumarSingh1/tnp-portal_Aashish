@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'Training & Placement Cell - NIT Patna',
   description: 'Official Training & Placement Cell portal of NIT Patna',
+  verification: {
+    google: '5gbX6CeIgXNqZ2CuUrXtlfpdcPg-v8n4l_mx3CXfnwU',
+  },
 }
 
 export default function RootLayout({ children }) {
