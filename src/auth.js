@@ -15,8 +15,16 @@ const ROLE_IDS = {
 const REDIRECT_PATHS = {
   [ROLE_IDS.SUPER_ADMIN]: '/super-admin/dashboard',
   [ROLE_IDS.ADMIN]: '/admin/dashboard',
-  [ROLE_IDS.STUDENT]: '/student/profile',
+  [ROLE_IDS.STUDENT]: '/student/dashboard',
   [ROLE_IDS.COMPANY]: '/company/dashboard'
+}
+
+// At the top with other constants, add role name mapping
+const ROLE_NAMES = {
+  [ROLE_IDS.SUPER_ADMIN]: 'SUPER_ADMIN',
+  [ROLE_IDS.ADMIN]: 'ADMIN',
+  [ROLE_IDS.STUDENT]: 'STUDENT',
+  [ROLE_IDS.COMPANY]: 'COMPANY'
 }
 
 export const authOptions = {
@@ -28,6 +36,7 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' },
         role: { label: 'Role', type: 'text' }
       },
+      
       async authorize(credentials) {
         try {
           // Early validation of all required fields
@@ -49,31 +58,30 @@ export const authOptions = {
             console.log('Invalid role selected:', selectedRole)
             return null
           }
+          console.log('Selected role:', selectedRole)
 
           // First, check if user exists and get their role
           const [user] = await executeQuery({
             query: `
               SELECT 
-                s.id,
-          s.user_id,
-          s.full_name,
-          s.roll_number,
-          s.branch,
-          s.current_year,
-          s.cgpa,
-          s.phone,
-          s.secondary_phone,
-          s.passing_year,
-          s.is_email_verified,
-          s.is_verified_by_admin,
-          s.degree_type,
-          s.specialization,
-          s.secondary_email,
-          u.email as primary_email,
-          u.created_at as registration_date
-        FROM students s
-        JOIN users u ON u.id = s.user_id
-        WHERE s.user_id = ?
+                u.*,
+                s.id as student_id,
+                s.full_name,
+                s.roll_number,
+                s.branch,
+                s.current_year,
+                s.cgpa,
+                s.phone,
+                s.secondary_phone,
+                s.passing_year,
+                s.is_email_verified,
+                s.is_verified_by_admin,
+                s.degree_type,
+                s.specialization,
+                s.secondary_email
+              FROM users u
+              LEFT JOIN students s ON s.user_id = u.id
+              WHERE u.email = ?
             `,
             values: [email]
           })
@@ -138,7 +146,7 @@ export const authOptions = {
           return {
             id: user.id,
             email: user.email,
-            role: user.role_name.toUpperCase(),
+            role: ROLE_NAMES[user.role_id],
             isSuper: user.role_id === ROLE_IDS.SUPER_ADMIN,
             isAdmin: user.role_id === ROLE_IDS.ADMIN,
             roleId: user.role_id,

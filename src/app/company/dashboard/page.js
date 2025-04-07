@@ -1,9 +1,9 @@
-import ComingSoon from '@/app/components/comingsoon'
+import ComingSoon from '@/components/ui/ComingSoon'
 import React from 'react'
 
 function page() {
   return (
-    <div><ComingSoon/></div>
+    <div><ComingSoon title="Dashboard" /></div>
   )
 }
 
