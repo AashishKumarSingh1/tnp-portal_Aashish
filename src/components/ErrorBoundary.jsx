@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import Error from '@src/components/Error'
+import Error from '@/components/Error'
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
