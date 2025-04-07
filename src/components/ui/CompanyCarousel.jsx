@@ -59,88 +59,189 @@ const CompanyCarousel = () => {
               </div>
             </div>
           ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
+          {companyLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex-none w-1/6 px-2"
+            >
+              <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt={`Company ${index + 1}`}
+                  className="max-w-full max-h-full object-contain filter"
+                />
+              </div>
+            </div>
+          ))}
           
-          <div className="flex-none w-1/6 px-2">
-            <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
-              <img
-                src={companyLogos[0]}
-                alt="Company 1"
-                className="max-w-full max-h-full object-contain filter"
-              />
-            </div>
-          </div>
-          <div className="flex-none w-1/6 px-2">
-            <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
-              <img
-                src={companyLogos[0]}
-                alt="Company 1"
-                className="max-w-full max-h-full object-contain filter"
-              />
-            </div>
-          </div>
-          <div className="flex-none w-1/6 px-2">
-            <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
-              <img
-                src={companyLogos[0]}
-                alt="Company 1"
-                className="max-w-full max-h-full object-contain filter"
-              />
-            </div>
-          </div>
-          <div className="flex-none w-1/6 px-2">
-            <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
-              <img
-                src={companyLogos[0]}
-                alt="Company 1"
-                className="max-w-full max-h-full object-contain filter"
-              />
-            </div>
-          </div>
-          <div className="flex-none w-1/6 px-2">
-            <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
-              <img
-                src={companyLogos[0]}
-                alt="Company 1"
-                className="max-w-full max-h-full object-contain filter"
-              />
-            </div>
-          </div>
-          <div className="flex-none w-1/6 px-2">
-            <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
-              <img
-                src={companyLogos[0]}
-                alt="Company 1"
-                className="max-w-full max-h-full object-contain filter"
-              />
-            </div>
-          </div>
-          <div className="flex-none w-1/6 px-2">
-            <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
-              <img
-                src={companyLogos[0]}
-                alt="Company 1"
-                className="max-w-full max-h-full object-contain filter"
-              />
-            </div>
-          </div>
-          <div className="flex-none w-1/6 px-2">
-            <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
-              <img
-                src={companyLogos[0]}
-                alt="Company 1"
-                className="max-w-full max-h-full object-contain filter"
-              />
-            </div>
-          </div>
-          <div className="flex-none w-1/6 px-2">
-            <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
-              <img
-                src={companyLogos[0]}
-                alt="Company 1"
-                className="max-w-full max-h-full object-contain filter"
-              />
-            </div>
-          </div>
         </div>
       </div>
     )
