@@ -6,7 +6,7 @@ import { Users, Trophy, Target, BookOpen, Building2, GraduationCap, Award, Brief
 
 export const metadata = {
   title: 'About Us - Training & Placement Cell NIT Patna',
-  description: 'Learn about the Training & Placement Cell at NIT Patna and our commitment to student success',
+  description: 'Learn about the mission, vision, and dedicated efforts of the Training & Placement Cell at the National Institute of Technology Patna.',
 }
 
 export default function AboutPage() {
