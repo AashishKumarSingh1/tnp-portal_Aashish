@@ -1,0 +1,21 @@
+CREATE TABLE job_announcements (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  company_id INT NOT NULL,
+  job_profile VARCHAR(255) NOT NULL,
+  mode_of_hiring ENUM('OnCampus', 'Virtual', 'Hybrid') NOT NULL,
+  place_of_posting TEXT,
+  ctc_breakdown TEXT NOT NULL,
+  offer_type ENUM('6 Month Intern', '6 Month Intern + PPO', '2 month Intern') NOT NULL,
+  eligible_batches JSON NOT NULL,
+  eligible_branches JSON NOT NULL,
+  eligible_degrees JSON NOT NULL,
+  selection_process JSON NOT NULL,
+  total_rounds INT NOT NULL,
+  min_offers INT,
+  job_description_file VARCHAR(255),
+  status ENUM('Pending Review', 'Approved', 'Rejected') DEFAULT 'Pending Review',
+  rejection_reason TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (company_id) REFERENCES companies(id)
+); 

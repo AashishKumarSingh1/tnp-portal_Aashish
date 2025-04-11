@@ -74,18 +74,35 @@ export async function sendOTP(email, otp, type = 'registration') {
     : 'Password Reset OTP - TNP Cell NIT Patna'
 
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #1a1a1a;">TNP Cell - NIT Patna</h2>
-      <p>Hello,</p>
-      <p>Your ${type === 'registration' ? 'verification' : 'password reset'} OTP is:</p>
-      <h1 style="color: #be123c; font-size: 32px; letter-spacing: 5px; margin: 20px 0;">${otp}</h1>
-      <p>This OTP will expire in 10 minutes.</p>
-      <p style="color: #666;">If you didn't request this, please ignore this email.</p>
-      <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;" />
-      <p style="color: #666; font-size: 12px;">
-        This is an automated email from Training & Placement Cell, NIT Patna.
-        Please do not reply to this email.
-      </p>
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">TNP Cell - NIT Patna</h2>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">Hello,</p>
+      
+      <p style="color: #333; line-height: 1.6;">Your ${type === 'registration' ? 'verification' : 'password reset'} OTP is:</p>
+      
+      <div style="background-color: #f0e6e6; padding: 20px; text-align: center; border-radius: 5px; margin: 20px 0; border-left: 4px solid #8B3A3A;">
+        <h1 style="color: #8B3A3A; font-size: 32px; letter-spacing: 5px; margin: 0;">${otp}</h1>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">This OTP will expire in 10 minutes.</p>
+      <p style="color: #666; font-size: 14px;">If you didn't request this, please ignore this email.</p>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          Please do not reply to this email. If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
     </div>
   `
 
@@ -108,17 +125,34 @@ export async function sendOTP(email, otp, type = 'registration') {
 
 export async function sendWelcomeEmail(email, name, role) {
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #1a1a1a;">Welcome to TNP Cell - NIT Patna</h2>
-      <p>Hello ${name},</p>
-      <p>Your account has been successfully created as a ${role}.</p>
-      <p>You can now login to access your dashboard and features.</p>
-      <p style="margin-top: 20px;">Best regards,<br />Training & Placement Cell<br />NIT Patna</p>
-      <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;" />
-      <p style="color: #666; font-size: 12px;">
-        This is an automated email from Training & Placement Cell, NIT Patna.
-        Please do not reply to this email.
-      </p>
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Welcome to TNP Cell - NIT Patna</h2>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">Hello ${name},</p>
+      
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          Your account has been successfully created as a <strong>${role}</strong>.
+        </p>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">You can now login to access your dashboard and features.</p>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          Please do not reply to this email. If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
     </div>
   `
 
@@ -141,24 +175,43 @@ export async function sendWelcomeEmail(email, name, role) {
 
 export async function sendVerificationConfirmationEmail(email, name) {
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #1a1a1a;">TNP Cell - NIT Patna</h2>
-      <p>Hello ${name},</p>
-      <p>Congratulations! Your account has been successfully verified by the admin.</p>
-      <p>You can now access all features of the TNP portal including:</p>
-      <ul style="color: #444; margin: 20px 0; padding-left: 20px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Account Verified - TNP Cell NIT Patna</h2>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">Hello ${name},</p>
+      
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          Congratulations! Your account has been successfully verified by the admin.
+        </p>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">You can now access all features of the TNP portal including:</p>
+      
+      <ul style="color: #444; margin: 20px 0; padding-left: 20px; line-height: 1.6;">
         <li>View and apply for job opportunities</li>
         <li>Access placement resources</li>
         <li>Update your profile</li>
         <li>Track your applications</li>
       </ul>
-      <p>Login to your account to get started!</p>
-      <p style="margin-top: 20px;">Best regards,<br />Training & Placement Cell<br />NIT Patna</p>
-      <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;" />
-      <p style="color: #666; font-size: 12px;">
-        This is an automated email from Training & Placement Cell, NIT Patna.
-        Please do not reply to this email.
-      </p>
+      
+      <p style="color: #333; line-height: 1.6;">Login to your account to get started!</p>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          Please do not reply to this email. If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
     </div>
   `
 
@@ -181,24 +234,43 @@ export async function sendVerificationConfirmationEmail(email, name) {
 
 export async function sendCompanyVerificationEmail(email, companyName) {
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #1a1a1a;">TNP Cell - NIT Patna</h2>
-      <p>Dear ${companyName},</p>
-      <p>Congratulations! Your company account has been successfully verified by our admin team.</p>
-      <p>You can now access all features of the TNP portal including:</p>
-      <ul style="color: #444; margin: 20px 0; padding-left: 20px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Company Account Verified - TNP Cell NIT Patna</h2>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">Dear ${companyName},</p>
+      
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          Congratulations! Your company account has been successfully verified by our admin team.
+        </p>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">You can now access all features of the TNP portal including:</p>
+      
+      <ul style="color: #444; margin: 20px 0; padding-left: 20px; line-height: 1.6;">
         <li>Post job opportunities</li>
         <li>View student profiles</li>
         <li>Manage applications</li>
         <li>Schedule campus drives</li>
       </ul>
-      <p>Login to your account to get started!</p>
-      <p style="margin-top: 20px;">Best regards,<br />Training & Placement Cell<br />NIT Patna</p>
-      <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;" />
-      <p style="color: #666; font-size: 12px;">
-        This is an automated email from Training & Placement Cell, NIT Patna.
-        Please do not reply to this email.
-      </p>
+      
+      <p style="color: #333; line-height: 1.6;">Login to your account to get started!</p>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          Please do not reply to this email. If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
     </div>
   `
 
@@ -221,23 +293,43 @@ export async function sendCompanyVerificationEmail(email, companyName) {
 
 export async function sendCompanyRejectionEmail(email, companyName) {
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #1a1a1a;">TNP Cell - NIT Patna</h2>
-      <p>Dear ${companyName},</p>
-      <p>We regret to inform you that your company account verification request has been rejected.</p>
-      <p>If you believe this is an error or would like to provide additional information, please:</p>
-      <ol style="color: #444; margin: 20px 0; padding-left: 20px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Company Verification Update - TNP Cell NIT Patna</h2>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">Dear ${companyName},</p>
+      
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          We regret to inform you that your company account verification request has been rejected.
+        </p>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">If you believe this is an error or would like to provide additional information, please:</p>
+      
+      <ol style="color: #444; margin: 20px 0; padding-left: 20px; line-height: 1.6;">
         <li>Contact us at tnp@nitp.ac.in</li>
         <li>Include your company details and registration information</li>
         <li>Provide any supporting documentation</li>
       </ol>
-      <p>Our team will review your case and get back to you as soon as possible.</p>
-      <p style="margin-top: 20px;">Best regards,<br />Training & Placement Cell<br />NIT Patna</p>
-      <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;" />
-      <p style="color: #666; font-size: 12px;">
-        This is an automated email from Training & Placement Cell, NIT Patna.
-        For immediate assistance, please email tnp@nitp.ac.in
-      </p>
+      
+      <p style="color: #333; line-height: 1.6;">Our team will review your case and get back to you as soon as possible.</p>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          For immediate assistance, please email tnp@nitp.ac.in<br>
+          If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
     </div>
   `
 
@@ -260,9 +352,32 @@ export async function sendCompanyRejectionEmail(email, companyName) {
 
 export async function sendTestMail(email) {
   const html = `
-    <h1>Test Email from TNP Cell</h1>
-    <p>This is a test email from TNP Cell. If you received this email, your SMTP settings are working correctly.</p>
-    <p>Sent at: ${new Date().toLocaleString()}</p>
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Test Email from TNP Cell</h2>
+      </div>
+      
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          This is a test email from TNP Cell. If you received this email, your SMTP settings are working correctly.
+        </p>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">🕒 Sent on ${new Date().toLocaleString()}</p>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
+    </div>
   `
 
   try {
@@ -285,11 +400,11 @@ export async function sendTestMail(email) {
 export async function sendContactFormEmail(name, email, subject, message) {
   const html = `
     <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
-    <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
         <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">New Contact Form Submission</h2>
-    </div>
-    
-    <div style="background-color: #f0e6e6; padding: 20px; border-radius: 5px; border-left: 4px solid #8B3A3A; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+      </div>
+      
+      <div style="background-color: #f0e6e6; padding: 20px; border-radius: 5px; border-left: 4px solid #8B3A3A; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
             <tr>
                 <td style="padding: 5px 0; width: 80px; color: #5a3e36; font-weight: 600;">From:</td>
@@ -309,14 +424,16 @@ export async function sendContactFormEmail(name, email, subject, message) {
         <div style="background-color: #fff; padding: 12px; border-radius: 4px; border: 1px solid #e0d6cc;">
             <p style="margin: 0; color: #333; line-height: 1.5; white-space: pre-wrap;">${message}</p>
         </div>
-    </div>
-    
-    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
         <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
-            This message was sent from the TNP Cell contact form at NIT Patna.
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This message was sent from the TNP Cell contact form at NIT Patna.<br>
+          If you think this email isn't intended for you, please reply with "STOP".
         </p>
+      </div>
     </div>
-</div>
   `
 
   try {
@@ -338,36 +455,37 @@ export async function sendContactFormEmail(name, email, subject, message) {
 
 export async function sendContactConfirmationEmail(email, name) {
   const html = `
-   <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
-    <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 15px; margin-bottom: 20px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 15px; margin-bottom: 20px;">
         <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Thank You for Contacting Us</h2>
-    </div>
-    
-    <p style="color: #333; line-height: 1.6;">Dear ${name},</p>
-    
-    <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">Dear ${name},</p>
+      
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
         <p style="color: #333; margin: 0; line-height: 1.6;">
-            We have received your message and will get back to you as soon as possible.
+          We have received your message and will get back to you as soon as possible.
         </p>
-    </div>
-    
-    <p style="color: #555; line-height: 1.6; font-size: 14px;">
+      </div>
+      
+      <p style="color: #555; line-height: 1.6; font-size: 14px;">
         This is an automated response confirming the receipt of your message.
-    </p>
-    
-    <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+      </p>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
         <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
         <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
         <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
-    </div>
-    
-    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
         <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
-            This is an automated email from Training & Placement Cell, NIT Patna.
-            <br>Please do not reply to this email.
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          Please do not reply to this email. If you think this email isn't intended for you, please reply with "STOP".
         </p>
+      </div>
     </div>
-</div>
   `
 
   try {
@@ -385,4 +503,60 @@ export async function sendContactConfirmationEmail(email, name) {
     console.error('Error sending contact confirmation email:', error)
     throw error
   }
-} 
+}
+
+export async function sendJAFNotificationEmail(companyName) {
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">New JAF Submission - TNP Cell NIT Patna</h2>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">Dear Admin,</p>
+      
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          A new Job Announcement Form has been submitted by <strong>${companyName}</strong>.
+        </p>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">Please review the submission in the admin dashboard at your earliest convenience.</p>
+      
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="${process.env.NEXT_PUBLIC_ADMIN_DASHBOARD_URL}" style="background-color: #8B3A3A; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: 500; display: inline-block;">
+          Go to Admin Dashboard
+        </a>
+      </div>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated notification from Training & Placement Cell, NIT Patna.<br>
+          If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
+    </div>
+  `
+
+  try {
+    const settings = await getSmtpSettings()
+    const transporter = await createTransporter()
+    
+    await transporter.sendMail({
+      from: settings.from,
+      to: process.env.NEXT_PUBLIC_ADMIN_EMAIL,
+      subject: `New JAF Submission - ${companyName}`,
+      html
+    })
+    return true
+  } catch (error) {
+    console.error('Error sending JAF notification email:', error)
+    return false
+  }
+}

@@ -42,6 +42,14 @@ const nextConfig = {
         
       ],
     },
+    async rewrites() {
+      return [
+        {
+          source: '/api/company/jaf/:path*',
+          destination: '/api/company/JAF/:path*',
+        },
+      ]
+    },
   };
   
   module.exports = nextConfig;

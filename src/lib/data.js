@@ -32,10 +32,10 @@ const Specialization = [
 ]
 
 export const DegreeTypes = [
-  'UG',
-  'PG',
+  'UG ( B.Tech )',
+  'PG ( M.Tech )',
   'PhD',
-  'Dual Degree',
+  'Dual Degree ( B.Tech + M.Tech )',
   'B.Arch',
   'M.Arch',
   'MURP'
