@@ -90,17 +90,23 @@ export default function ContactPage() {
               <Card className="p-6 hover-card">
                 <Mail className="w-8 h-8 text-red-900 dark:text-red-500 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Email Us</h3>
-                <a href="mailto:tnp@nitp.ac.in" className="text-muted-foreground hover:text-red-900 dark:hover:text-red-500">
-                  tnp@nitp.ac.in
+                <a href="mailto:placement@nitp.ac.in" className="text-muted-foreground hover:text-red-900 dark:hover:text-red-500">
+                placement@nitp.ac.in
+                </a>
+                <a href="mailto:tnplacement@nitp.ac.in" className="text-muted-foreground hover:text-red-900 dark:hover:text-red-500">
+                tnp@nitp.ac.in
                 </a>
               </Card>
               
               <Card className="p-6 hover-card">
                 <Phone className="w-8 h-8 text-red-900 dark:text-red-500 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Call Us</h3>
-                <a href="tel:+916123456789" className="text-muted-foreground hover:text-red-900 dark:hover:text-red-500">
-                  +91-612-345-6789
+                <a href="tel:+916122371715" className="text-muted-foreground hover:text-red-900 dark:hover:text-red-500">
+                  +91-612-2371715
                 </a>
+                <p className="text-muted-foreground">
+                ext. no. 191
+                </p>
               </Card>
               
               <Card className="p-6 hover-card">
@@ -117,7 +123,7 @@ export default function ContactPage() {
                 <h3 className="text-lg font-semibold mb-2">Office Hours</h3>
                 <p className="text-muted-foreground">
                   Monday - Friday<br />
-                  9:00 AM - 5:00 PM
+                  8:30 AM - 5:30 PM
                 </p>
               </Card>
             </div>

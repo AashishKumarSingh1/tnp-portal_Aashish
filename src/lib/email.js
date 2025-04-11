@@ -442,7 +442,7 @@ export async function sendContactFormEmail(name, email, subject, message) {
     
     await transporter.sendMail({
       from: settings.from,
-      to: 'kumarashish98526@gmail.com',
+      to: `${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`,
       subject: `Contact Form: ${subject}`,
       html
     })

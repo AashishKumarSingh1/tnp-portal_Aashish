@@ -48,7 +48,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -62,7 +62,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -76,7 +76,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -90,7 +90,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -104,7 +104,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -118,7 +118,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -132,7 +132,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -146,7 +146,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -160,7 +160,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -174,7 +174,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -188,7 +188,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -202,7 +202,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -216,7 +216,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
@@ -230,7 +230,7 @@ const CompanyCarousel = () => {
           {companyLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex-none w-1/6 px-2"
+              className="flex-none w-1/2 md:w-1/6 px-2"
             >
               <div className="aspect-square bg-white rounded-lg border hover:shadow-lg transition-all p-4 flex items-center justify-center">
                 <img
