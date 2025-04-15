@@ -41,6 +41,7 @@ import Link from 'next/link'
 import { Checkbox } from "@/components/ui/checkbox"
 import * as XLSX from 'xlsx'
 import { ExportFieldsDialog } from '@/components/ExportFieldsDialog'
+import { AccountStatusToggle } from '@/components/ui/account-status-toggle'
 
 const studentSchema = z.object({
   full_name: z.string().min(2, "Full name must be at least 2 characters"),
@@ -496,6 +497,24 @@ export default function StudentsPage() {
               <span className="text-sm text-muted-foreground">
                 {selectedStudents.length} selected
               </span>
+              {selectedStudents.length > 0 && (
+                <AccountStatusToggle
+                  isBulk={true}
+                  selectedIds={selectedStudents.map(id => students.find(s => s.id === id)?.user_id).filter(Boolean)}
+                  isActive={true}
+                  onBulkStatusChange={(newStatus) => {
+                    // Update local state for all selected students
+                    setStudents(students.map(student => 
+                      selectedStudents.includes(student.id)
+                        ? { ...student, is_active: newStatus }
+                        : student
+                    ))
+                    // Clear selection after bulk action
+                    setSelectedStudents([])
+                    setSelectAll(false)
+                  }}
+                />
+              )}
             </div>
             {selectedStudents.length > 0 && (
               <Button
@@ -539,8 +558,9 @@ export default function StudentsPage() {
                       <TableHead>Roll Number</TableHead>
                       <TableHead>Email</TableHead>
                       <TableHead>Branch</TableHead>
+                      <TableHead>Year</TableHead>
                       <TableHead>CGPA</TableHead>
-                      <TableHead>Registration Date</TableHead>
+                      <TableHead>Status</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -564,9 +584,20 @@ export default function StudentsPage() {
                         <TableCell>{student.roll_number}</TableCell>
                         <TableCell>{student.email}</TableCell>
                         <TableCell>{student.branch}</TableCell>
+                        <TableCell>{student.current_year}</TableCell>
                         <TableCell>{student.cgpa}</TableCell>
                         <TableCell>
-                          {new Date(student.created_at).toLocaleDateString()}
+                          <AccountStatusToggle
+                            userId={student.user_id}
+                            isActive={student.is_active}
+                            onStatusChange={(newStatus) => {
+                              setStudents(students.map(s => 
+                                s.id === student.id 
+                                  ? { ...s, is_active: newStatus }
+                                  : s
+                              ))
+                            }}
+                          />
                         </TableCell>
                         <TableCell className="text-right">
                           <Button

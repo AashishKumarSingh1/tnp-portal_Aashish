@@ -1,11 +1,11 @@
-import { executeQuery } from '@/lib/db'
+import { executeQuery, executeTransaction } from '@/lib/db'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import bcrypt from 'bcryptjs'
 import { logActivity } from '@/app/api/admin/activity-logs/route'
 import { NextResponse } from 'next/server'
 
-// Get all admins
+// Get all admins 
 export async function GET(request) {
   try {
     const session = await getServerSession(authOptions)
@@ -34,7 +34,8 @@ export async function GET(request) {
           u.last_login,
           u.role_id
         FROM users u
-        where email!="kumarashish98526@gmail.com"
+        WHERE email != "kumarashish98526@gmail.com"
+        AND deleted_at IS NULL
         ORDER BY u.created_at DESC
       `
     })
@@ -204,7 +205,7 @@ export async function PUT(request) {
       roleId 
     } = body
 
-    // Start building the query and values array
+ 
     let updateFields = [
       'name = ?',
       'batch_year = ?',
@@ -228,17 +229,17 @@ export async function PUT(request) {
       email
     ]
 
-    // If password is provided, hash it and add to update
+   
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10)
       updateFields.push('password = ?')
       values.push(hashedPassword)
     }
 
-    // Add id to values array
+    
     values.push(id)
 
-    // Check if email already exists for other users
+    
     if (email) {
       const existingUser = await executeQuery({
         query: 'SELECT id FROM users WHERE email = ? AND id != ?',
@@ -289,7 +290,7 @@ export async function PUT(request) {
   }
 }
 
-// Delete admin
+// Delete admin 
 export async function DELETE(request) {
   try {
     const session = await getServerSession(authOptions)
@@ -306,47 +307,150 @@ export async function DELETE(request) {
 
     // Get admin details for logging
     const admins = await executeQuery({
-      query: 'SELECT email FROM users WHERE id = ?',
+      query: 'SELECT email, name FROM users WHERE id = ? AND deleted_at IS NULL',
       values: [id]
     })
 
     if (!admins || admins.length === 0) {
       return NextResponse.json(
-        { error: 'Admin not found' },
+        { error: 'Admin not found or already deleted' },
         { status: 404 }
       )
     }
 
     const adminEmail = admins[0].email
+    const adminName = admins[0].name
 
-    // Delete admin
-    const result = await executeQuery({
-      query: 'DELETE FROM users WHERE id = ?',
+    // Execute the soft delete within a transaction
+    try {
+      await executeTransaction([
+        {
+          query: `
+            UPDATE users 
+            SET 
+              deleted_at = CURRENT_TIMESTAMP,
+              is_active = false,
+              updated_at = CURRENT_TIMESTAMP
+            WHERE id = ? AND deleted_at IS NULL
+          `,
+          values: [id]
+        },
+        {
+          query: `
+            INSERT INTO activity_logs 
+            (user_id, action, details) 
+            VALUES (?, ?, ?)
+          `,
+          values: [
+            session.user.id,
+            'DEACTIVATE_ADMIN',
+            JSON.stringify({
+              message: `Deactivated admin account: ${adminEmail} (${adminName})`,
+              deactivated_admin_id: id
+            })
+          ]
+        }
+      ])
+
+      return NextResponse.json({
+        message: 'Admin deactivated successfully'
+      })
+
+    } catch (error) {
+      console.error('Transaction error:', error)
+      throw error
+    }
+
+  } catch (error) {
+    console.error('Error deactivating admin:', error)
+    return NextResponse.json(
+      { 
+        error: 'Failed to deactivate admin',
+        details: error.message 
+      },
+      { status: 500 }
+    )
+  }
+}
+
+// Add new endpoint to restore deleted admins
+export async function PATCH(request) {
+  try {
+    const session = await getServerSession(authOptions)
+
+    if (!session || session.user.role !== 'SUPER_ADMIN') {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    const body = await request.json()
+    const { id } = body
+
+    // Get admin details for logging
+    const admins = await executeQuery({
+      query: 'SELECT email, name FROM users WHERE id = ? AND deleted_at IS NOT NULL',
       values: [id]
     })
 
-    if (result.affectedRows === 0) {
+    if (!admins || admins.length === 0) {
       return NextResponse.json(
-        { error: 'Admin not found' },
+        { error: 'Deleted admin not found' },
         { status: 404 }
       )
     }
 
-    // Log activity
-    await logActivity(
-      session.user.id,
-      'DELETE_ADMIN',
-      `Deleted admin account: ${adminEmail} (ID: ${id})`,
-      request
-    )
+    const adminEmail = admins[0].email
+    const adminName = admins[0].name
 
-    return NextResponse.json({
-      message: 'Admin deleted successfully'
-    })
+    // Execute the restore within a transaction
+    try {
+      await executeTransaction([
+        {
+          query: `
+            UPDATE users 
+            SET 
+              deleted_at = NULL,
+              is_active = true,
+              updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+          `,
+          values: [id]
+        },
+        {
+          query: `
+            INSERT INTO activity_logs 
+            (user_id, action, details) 
+            VALUES (?, ?, ?)
+          `,
+          values: [
+            session.user.id,
+            'RESTORE_ADMIN',
+            JSON.stringify({
+              message: `Restored admin account: ${adminEmail} (${adminName})`,
+              restored_admin_id: id
+            })
+          ]
+        }
+      ])
+
+      return NextResponse.json({
+        message: 'Admin restored successfully'
+      })
+
+    } catch (error) {
+      console.error('Transaction error:', error)
+      throw error
+    }
+
   } catch (error) {
-    console.error('Error deleting admin:', error)
+    console.error('Error restoring admin:', error)
     return NextResponse.json(
-      { error: 'Failed to delete admin' },
+      { 
+        error: 'Failed to restore admin',
+        details: error.message 
+      },
       { status: 500 }
     )
   }

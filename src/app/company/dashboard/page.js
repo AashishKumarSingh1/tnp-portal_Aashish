@@ -15,7 +15,7 @@ import {
   Award,
   GraduationCap
 } from 'lucide-react'
-
+import ProtectedRoute from '@/components/auth/ProtectedRoute'
 export default function StudentDashboard() {
   const { data: session } = useSession()
   const [companyData, setCompanyData] = useState(null)
@@ -94,6 +94,7 @@ export default function StudentDashboard() {
   }
 
   return (
+    <ProtectedRoute allowedRoles={['COMPANY']}>
     <div className="container mx-auto p-6">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">
@@ -153,5 +154,6 @@ export default function StudentDashboard() {
         </CardHeader>
       </Card>
     </div>
+    </ProtectedRoute>
   )
 } 

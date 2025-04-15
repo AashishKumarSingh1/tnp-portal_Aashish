@@ -3,6 +3,7 @@ import { executeQuery, executeTransaction } from '@/lib/db'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { logActivity } from '@/app/api/admin/activity-logs/route'
+import { sendVerificationConfirmationEmail } from '@/lib/email'
 export async function PUT(req, { params }) {
   const session = await getServerSession(authOptions)
     if (!session || !['SUPER_ADMIN', 'ADMIN'].includes(session.user.role)) {
@@ -47,6 +48,8 @@ export async function PUT(req, { params }) {
       studentId: id,
       changes: data
     })
+
+    await sendVerificationConfirmationEmail(data.email, data.full_name);
     return NextResponse.json({ message: 'Student updated successfully' })
   } catch (error) {
     console.error('Failed to update student:', error)

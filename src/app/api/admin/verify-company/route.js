@@ -17,9 +17,31 @@ export async function GET(request) {
 
     const companies = await executeQuery({
       query: `
-        SELECT c.*, u.email, u.created_at
+        SELECT 
+          c.id,
+          c.user_id,
+          c.company_name,
+          c.website,
+          c.description,
+          c.contact_person_name,
+          c.contact_person_designation,
+          c.phone,
+          c.is_email_verified,
+          c.is_verified_by_admin,
+          u.email,
+          u.created_at,
+          cd.head_office_address,
+          cd.hr_head_name,
+          cd.hr_head_contact,
+          cd.hr_executive_name,
+          cd.hr_executive_contact,
+          cd.total_employees,
+          cd.annual_turnover,
+          cd.company_category,
+          cd.industry_sector
         FROM companies c
         JOIN users u ON c.user_id = u.id
+        LEFT JOIN company_details cd ON c.id = cd.company_id
         WHERE c.is_verified_by_admin = false
         ORDER BY c.created_at DESC
       `
@@ -55,7 +77,7 @@ export async function POST(req) {
       )
     }
 
-    // Get company details before updating
+    
     const [company] = await executeQuery({
       query: `
         SELECT c.*, u.email 
@@ -73,7 +95,7 @@ export async function POST(req) {
       )
     }
 
-    // Update verification status
+   
     await executeQuery({
       query: `
         UPDATE companies c
@@ -87,14 +109,14 @@ export async function POST(req) {
       values: [action === 'verify' ? 1 : 0, action === 'verify' ? 1 : 0, companyId]
     })
 
-    // Send appropriate email based on action
+    
     if (action === 'verify') {
       await sendCompanyVerificationEmail(company.email, company.company_name)
     } else {
       await sendCompanyRejectionEmail(company.email, company.company_name)
     }
 
-    // Log activity
+    
     await executeQuery({
       query: `
         INSERT INTO activity_logs

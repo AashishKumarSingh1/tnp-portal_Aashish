@@ -90,6 +90,8 @@ export default function ContactPage() {
               <Card className="p-6 hover-card">
                 <Mail className="w-8 h-8 text-red-900 dark:text-red-500 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Email Us</h3>
+                <a href="mailto:office.tnp@nitp.ac.in" className="text-muted-foreground hover:text-red-900 dark:hover:text-red-500">
+                  office.tnp@nitp.ac.in</a>
                 <a href="mailto:placement@nitp.ac.in" className="text-muted-foreground hover:text-red-900 dark:hover:text-red-500">
                 placement@nitp.ac.in
                 </a>

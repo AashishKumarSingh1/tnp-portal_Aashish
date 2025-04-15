@@ -34,7 +34,7 @@ function VerifyEmailContent() {
   const email = searchParams.get('email')
   const [otp, setOtp] = useState('')
   const [loading, setLoading] = useState(false)
-  const [countdown, setCountdown] = useState(30) // 30 seconds countdown
+  const [countdown, setCountdown] = useState(300)
 
   useEffect(() => {
     if (!email) {
@@ -101,7 +101,7 @@ function VerifyEmailContent() {
       }
 
       toast.success('OTP sent successfully!')
-      setCountdown(300) // Reset countdown to 5 minutes
+      setCountdown(300) 
     } catch (error) {
       toast.error(error.message)
     }

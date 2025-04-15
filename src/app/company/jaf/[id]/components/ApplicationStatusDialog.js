@@ -17,7 +17,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
-
+import ProtectedRoute from '@/components/auth/ProtectedRoute'
 const APPLICATION_STATUSES = [
   'Applied',
   'Resume Shortlisted',
@@ -26,6 +26,7 @@ const APPLICATION_STATUSES = [
   'Technical Interview',
   'HR Interview',
   'Selected',
+  'Offer Given',
   'Rejected'
 ]
 
@@ -66,12 +67,13 @@ export function ApplicationStatusDialog({
   }
 
   return (
+    <ProtectedRoute allowedRoles={['COMPANY']}>
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Update Application Status</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
+        <div className="space-y-4 bg-black">
           <div>
             <label className="text-sm font-medium">Status</label>
             <Select value={status} onValueChange={setStatus}>
@@ -102,5 +104,6 @@ export function ApplicationStatusDialog({
         </div>
       </DialogContent>
     </Dialog>
+    </ProtectedRoute>
   )
 } 

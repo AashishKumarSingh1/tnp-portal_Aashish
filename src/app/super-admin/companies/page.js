@@ -28,6 +28,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import { AccountStatusToggle } from '@/components/ui/account-status-toggle'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const companySchema = z.object({
   company_name: z.string().min(2, "Company name must be at least 2 characters"),
@@ -48,6 +50,8 @@ export default function CompaniesPage() {
   const [showEditDialog, setShowEditDialog] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [processing, setProcessing] = useState(false)
+  const [selectedCompanies, setSelectedCompanies] = useState([])
+  const [selectAll, setSelectAll] = useState(false)
 
   const form = useForm({
     resolver: zodResolver(companySchema),
@@ -143,6 +147,19 @@ export default function CompaniesPage() {
     }
   }
 
+  const handleSelectAll = (checked) => {
+    setSelectAll(checked)
+    setSelectedCompanies(checked ? filteredCompanies.map(c => c.id) : [])
+  }
+
+  const handleSelectCompany = (checked, companyId) => {
+    setSelectedCompanies(prev => 
+      checked 
+        ? [...prev, companyId]
+        : prev.filter(id => id !== companyId)
+    )
+  }
+
   const filteredCompanies = companies.filter(company =>
     company.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     company.contact_person_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -182,6 +199,34 @@ export default function CompaniesPage() {
             />
           </div>
 
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-2">
+              <Checkbox 
+                checked={selectAll} 
+                onCheckedChange={handleSelectAll}
+              />
+              <span className="text-sm text-muted-foreground">
+                {selectedCompanies.length} selected
+              </span>
+              {selectedCompanies.length > 0 && (
+                <AccountStatusToggle
+                  isBulk={true}
+                  selectedIds={selectedCompanies.map(id => companies.find(c => c.id === id)?.user_id).filter(Boolean)}
+                  isActive={true}
+                  onBulkStatusChange={(newStatus) => {
+                    setCompanies(companies.map(company => 
+                      selectedCompanies.includes(company.id)
+                        ? { ...company, is_active: newStatus }
+                        : company
+                    ))
+                    setSelectedCompanies([])
+                    setSelectAll(false)
+                  }}
+                />
+              )}
+            </div>
+          </div>
+
           <Card>
             <CardContent className="p-0">
               {loading ? (
@@ -201,10 +246,17 @@ export default function CompaniesPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead className="w-12">
+                        <Checkbox 
+                          checked={selectAll}
+                          onCheckedChange={handleSelectAll}
+                        />
+                      </TableHead>
                       <TableHead>Company Name</TableHead>
                       <TableHead>Contact Person</TableHead>
                       <TableHead>Email</TableHead>
                       <TableHead>Phone</TableHead>
+                      <TableHead>Status</TableHead>
                       <TableHead>Registration Date</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
@@ -212,38 +264,46 @@ export default function CompaniesPage() {
                   <TableBody>
                     {filteredCompanies.map((company) => (
                       <TableRow key={company.id}>
-                        <TableCell className="font-medium">
-                          {company.company_name}
-                        </TableCell>
                         <TableCell>
-                          {company.contact_person_name}
-                          <br />
-                          <span className="text-sm text-muted-foreground">
-                            {company.contact_person_designation}
-                          </span>
+                          <Checkbox 
+                            checked={selectedCompanies.includes(company.id)}
+                            onCheckedChange={(checked) => handleSelectCompany(checked, company.id)}
+                          />
                         </TableCell>
+                        <TableCell>{company.company_name}</TableCell>
+                        <TableCell>{company.contact_person_name}</TableCell>
                         <TableCell>{company.email}</TableCell>
                         <TableCell>{company.phone}</TableCell>
+                        <TableCell>
+                          <AccountStatusToggle
+                            userId={company.user_id}
+                            isActive={company.is_active}
+                            onStatusChange={(newStatus) => {
+                              setCompanies(companies.map(c => 
+                                c.id === company.id 
+                                  ? { ...c, is_active: newStatus }
+                                  : c
+                              ))
+                            }}
+                          />
+                        </TableCell>
                         <TableCell>
                           {new Date(company.created_at).toLocaleDateString()}
                         </TableCell>
                         <TableCell className="text-right">
                           <Button
-                            variant="outline"
-                            size="sm"
-                            className="mr-2"
+                            variant="ghost"
+                            size="icon"
                             onClick={() => handleEdit(company)}
                           >
-                            <Pencil className="h-4 w-4 mr-1" />
-                            Edit
+                            <Pencil className="h-4 w-4" />
                           </Button>
                           <Button
-                            variant="destructive"
-                            size="sm"
+                            variant="ghost"
+                            size="icon"
                             onClick={() => handleDelete(company)}
                           >
-                            <Trash2 className="h-4 w-4 mr-1" />
-                            Delete
+                            <Trash2 className="h-4 w-4" />
                           </Button>
                         </TableCell>
                       </TableRow>

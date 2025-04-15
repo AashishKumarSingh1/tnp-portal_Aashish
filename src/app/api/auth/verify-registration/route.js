@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { executeQuery, executeTransaction } from '@/lib/db'
 import { hash } from 'bcryptjs'
+import { sendStudentWelcomeEmail, sendCompanyWelcomeEmail } from '@/lib/email'
 
 export async function POST(req) {
   try {
@@ -135,6 +136,7 @@ export async function POST(req) {
             userData.passing_year
           ]
         })
+        sendStudentWelcomeEmail(email, userData.full_name, email);
       } else {
         queries.push({
           query: `
@@ -159,6 +161,7 @@ export async function POST(req) {
             userData.contact_person_designation
           ]
         })
+        sendCompanyWelcomeEmail(email, userData.company_name, email);
       }
 
       // Mark OTP as used

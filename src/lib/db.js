@@ -6,44 +6,45 @@ const pool = mysql.createPool({
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
   waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+  connectionLimit: 20,
+  queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0,
+  idleTimeout: 60000, // Close idle connections after 60 seconds
+  maxIdle: 10 // Maximum number of idle connections to keep
 })
 
 export async function executeQuery({ query, values = [] }) {
+  const connection = await pool.getConnection()
   try {
-    const [results] = await pool.execute(query, values)
+    const [results] = await connection.execute(query, values)
     return results
   } catch (error) {
     console.error('Database Error:', error)
     throw error
+  } finally {
+    connection.release()
   }
 }
 
 export async function executeTransaction(queries) {
-  let connection
+  const connection = await pool.getConnection()
   try {
-    connection = await pool.getConnection()
     await connection.beginTransaction()
-
+    
     const results = []
-    for (const { query, values } of queries) {
-      const [result] = await connection.execute(query, values || [])
+    for (const { query, values = [] } of queries) {
+      const [result] = await connection.execute(query, values)
       results.push(result)
     }
-
+    
     await connection.commit()
     return results
   } catch (error) {
-    if (connection) {
-      await connection.rollback()
-    }
-    console.error('Transaction Error:', error)
+    await connection.rollback()
     throw error
   } finally {
-    if (connection) {
-      connection.release()
-    }
+    connection.release()
   }
 }
 

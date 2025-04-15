@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { executeQuery } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 
-// Role mapping constants
+
 const ROLE_IDS = {
   SUPER_ADMIN: 1,
   ADMIN: 2,
@@ -11,7 +11,6 @@ const ROLE_IDS = {
   COMPANY: 4
 }
 
-// Role to redirect path mapping
 const REDIRECT_PATHS = {
   [ROLE_IDS.SUPER_ADMIN]: '/super-admin/dashboard',
   [ROLE_IDS.ADMIN]: '/admin/dashboard',
@@ -19,7 +18,7 @@ const REDIRECT_PATHS = {
   [ROLE_IDS.COMPANY]: '/company/dashboard'
 }
 
-// At the top with other constants, add role name mapping
+
 const ROLE_NAMES = {
   [ROLE_IDS.SUPER_ADMIN]: 'SUPER_ADMIN',
   [ROLE_IDS.ADMIN]: 'ADMIN',
@@ -39,7 +38,6 @@ export const authOptions = {
       
       async authorize(credentials) {
         try {
-          // Early validation of all required fields
           if (!credentials?.email || !credentials?.password || !credentials?.role) {
             console.log('Missing credentials:', { 
               hasEmail: !!credentials?.email, 
@@ -52,7 +50,6 @@ export const authOptions = {
           const { email, password, role } = credentials
           const selectedRole = role.toLowerCase()
 
-          // Validate selected role
           const validRoles = ['admin', 'student', 'company']
           if (!validRoles.includes(selectedRole)) {
             console.log('Invalid role selected:', selectedRole)
@@ -60,7 +57,6 @@ export const authOptions = {
           }
           console.log('Selected role:', selectedRole)
 
-          // First, check if user exists and get their role
           const [user] = await executeQuery({
             query: `
               SELECT 
@@ -74,31 +70,45 @@ export const authOptions = {
                 s.phone,
                 s.secondary_phone,
                 s.passing_year,
-                s.is_email_verified,
-                s.is_verified_by_admin,
+                s.is_email_verified as student_is_email_verified,
+                s.is_verified_by_admin as student_is_verified_by_admin,
                 s.degree_type,
                 s.specialization,
-                s.secondary_email
+                s.secondary_email,
+                c.id as company_id,
+                c.company_name,
+                c.is_verified_by_admin as company_is_verified_by_admin,
+                r.name as role_name
               FROM users u
               LEFT JOIN students s ON s.user_id = u.id
+              LEFT JOIN companies c ON c.user_id = u.id
+              LEFT JOIN roles r ON u.role_id = r.id
               WHERE u.email = ?
             `,
             values: [email]
           })
 
           if (!user) {
-            console.log('User  not found:', email)
-            return null;
+            console.log('User not found:', email)
+            return null
           }
 
-          // Verify password
           const isValid = await bcrypt.compare(password, user.password)
           if (!isValid) {
             console.log('Invalid password for user:', email)
-            return null;
+            return null
           }
 
-          // Check role match
+          // Check if account is deactivated
+          if (!user.is_active) {
+            console.log('Account is deactivated:', email)
+            throw new Error(
+              'Your account has been deactivated by the admin. ' +
+              'Please contact office.tnp@nitp.ac.in with your details for assistance. ' +
+              (user.deactivation_reason ? `\n\nReason: ${user.deactivation_reason}` : '')
+            )
+          }
+
           const isAdminRole = user.role_id === ROLE_IDS.SUPER_ADMIN || user.role_id === ROLE_IDS.ADMIN
           const hasValidRole = (
             (selectedRole === 'admin' && isAdminRole) ||
@@ -112,40 +122,22 @@ export const authOptions = {
               actualRole: user.role_name,
               roleId: user.role_id
             })
-            return { error: 'Invalid credentials' };
+            return { error: 'Invalid credentials' }
           }
 
-          // Additional check for student verification by admin
-        if (user.role_id === ROLE_IDS.STUDENT && user.is_verified_by_admin===0) {
-          console.log('Student account is pending admin verification:', email)
-          return null;
-        }
-        if (user.role_id === ROLE_IDS.COMPANY && user.is_verified_by_admin===0) {
-          console.log('Company account is pending admin verification:', email)
-          return null;
-        }
-          // Log successful login activity
-          await executeQuery({
-            query: `
-              INSERT INTO activity_logs 
-              (user_id, action, details, ip_address) 
-              VALUES (?, ?, ?, ?)
-            `,
-            values: [
-              user.id,
-              'LOGIN',
-              JSON.stringify({
-                role: user.role_name,
-                timestamp: new Date().toISOString()
-              }),
-              '127.0.0.1'
-            ]
-          })
+          if (user.role_id === ROLE_IDS.STUDENT && (!user.student_is_verified_by_admin || user.student_is_verified_by_admin === 0)) {
+            console.log('Student account is pending admin verification:', email)
+            throw new Error('Your account is pending admin verification. Please contact T&P office for assistance.')
+          }
+          if (user.role_id === ROLE_IDS.COMPANY && (!user.company_is_verified_by_admin || user.company_is_verified_by_admin === 0)) {
+            console.log('Company account is pending admin verification:', email)
+            throw new Error('Your company account is pending admin verification. Please contact T&P office for assistance.')
+          }
 
-          // Return user object with role information and redirect path
           return {
             id: user.id,
             email: user.email,
+            name: user.full_name,
             role: ROLE_NAMES[user.role_id],
             isSuper: user.role_id === ROLE_IDS.SUPER_ADMIN,
             isAdmin: user.role_id === ROLE_IDS.ADMIN,

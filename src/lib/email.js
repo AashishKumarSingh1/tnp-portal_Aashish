@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 import { db } from '@/lib/db'
 import { executeQuery } from '@/lib/db'
 
-// Function to get SMTP settings from database
+
 async function getSmtpSettings() {
   try {
     const settings = await executeQuery({
@@ -32,7 +32,7 @@ async function getSmtpSettings() {
   }
 }
 
-// Create transporter with settings from database
+
 async function createTransporter() {
   const settings = await getSmtpSettings()
   
@@ -228,6 +228,57 @@ export async function sendVerificationConfirmationEmail(email, name) {
     return true
   } catch (error) {
     console.error('Error sending verification confirmation email:', error)
+    return false
+  }
+}
+
+export async function sendVerificationRejectionEmail(email, name, roll_number) {
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">  
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Account Verification Rejected - TNP Cell NIT Patna</h2>
+      </div>
+
+      <p style="color: #333; line-height: 1.6;">Dear ${name},</p>
+
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          We regret to inform you that your account verification request has been rejected.
+        </p>
+      </div>
+
+      <p style="color: #333; line-height: 1.6;">Your roll number is ${roll_number}.</p>
+
+      <p style="color: #333; line-height: 1.6;">If you have any questions or need further assistance, please contact us at tnp@nitp.ac.in.</p>
+
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;"> 
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          Please do not reply to this email. If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
+    </div>
+  `
+  try {
+    const settings = await getSmtpSettings()
+    const transporter = await createTransporter()
+    
+    await transporter.sendMail({
+      from: settings.from,
+      to: email,
+      subject: 'Account Verification Rejected - TNP Cell NIT Patna',
+      html
+    })
+    return true
+  } catch (error) {
+    console.error('Error sending verification rejection email:', error)
     return false
   }
 }
@@ -557,6 +608,471 @@ export async function sendJAFNotificationEmail(companyName) {
     return true
   } catch (error) {
     console.error('Error sending JAF notification email:', error)
+    return false
+  }
+}
+export async function sendJAFStatusUpdateEmail(companyName, status, companyEmail) {
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">JAF Status Update - TNP Cell NIT Patna</h2>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">Dear ${companyName},</p>
+      
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          We are pleased to inform you that your Job Announcement Form has been ${status.toLowerCase()}.
+        </p>
+      </div>
+      
+      <p style="color: #333; line-height: 1.6;">Please review the status in the admin dashboard at your earliest convenience.</p> 
+      
+      <div style="text-align: center; margin: 25px 0;">
+        <a  style="background-color: #8B3A3A; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: 500; display: inline-block;">
+          Go to Admin Dashboard
+        </a>
+      </div>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
+    </div>
+  `
+
+  try {
+    const settings = await getSmtpSettings()
+    const transporter = await createTransporter()
+    
+    await transporter.sendMail({
+      from: settings.from,
+      to: `${companyEmail}`,
+      subject: `JAF Status Update - ${companyName}`,
+      html
+    })
+    
+    return true
+  } catch (error) {
+    console.error('Error sending JAF status update email:', error)
+    return false
+  }
+}
+
+
+export async function sendStudentWelcomeEmail(email, name, email_to) {
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Welcome to TNP Cell NIT Patna</h2>
+      </div>
+
+      <p style="color: #333; line-height: 1.6;">Dear ${name},</p>
+
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          Welcome to the TNP Cell at NIT Patna! We're excited to have you on board. 
+          We have received your registration request and are currently reviewing it.
+          Once your account is verified, you will receive another confirmation email.
+        </p>
+      </div>
+
+      <p style="color: #333; line-height: 1.6;">
+        Please use the following credentials to log in to your account: 
+        Email: ${email_to}
+        Password: your password
+      </p>
+
+      <p style="color: #333; line-height: 1.6;">
+        Please use the following link to log in to your account:  
+        ${process.env.NEXT_PUBLIC_APP_URL}
+      </p>
+
+      <p style="color: #333; line-height: 1.6;">
+        Thank you for joining the TNP Cell at NIT Patna! We look forward to helping you find the perfect opportunities.
+      </p>  
+
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>  
+
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          If you think this email isn't intended for you, please reply with "STOP". 
+        </p>
+      </div>
+    </div>
+  `
+
+  try { 
+    const settings = await getSmtpSettings()
+    const transporter = await createTransporter()
+    
+    await transporter.sendMail({
+      from: settings.from,
+      to: email_to,
+      subject: 'Welcome to TNP Cell NIT Patna',
+      html
+    })
+    
+    return true
+  } catch (error) {
+    console.error('Error sending student welcome email:', error)
+    return false
+  }
+}
+
+export async function sendCompanyWelcomeEmail(email, name, email_to) {
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Welcome to TNP Cell NIT Patna</h2>
+      </div>
+
+      <p style="color: #333; line-height: 1.6;">Dear ${name},</p>
+
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;"> 
+          Welcome to the TNP Cell at NIT Patna! We're excited to have you on board.
+          We have received your registration request and are currently reviewing it.
+          Once your account is verified, you will receive another confirmation email.
+        </p>
+      </div>
+
+      <p style="color: #333; line-height: 1.6;">
+        Please use the following credentials to log in to your account: 
+        Email: ${email_to}
+        Password: your password
+      </p>
+
+      <p style="color: #333; line-height: 1.6;">  
+        Please use the following link to log in to your account:  
+        ${process.env.NEXT_PUBLIC_APP_URL}
+      </p>
+
+      <p style="color: #333; line-height: 1.6;">
+        Thank you for joining the TNP Cell at NIT Patna! We look forward to helping you find the perfect opportunities.
+      </p>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
+    </div>
+  `
+
+  try {
+    const settings = await getSmtpSettings()
+    const transporter = await createTransporter()
+    
+    await transporter.sendMail({
+      from: settings.from,  
+      to: email_to,
+      subject: 'Welcome to TNP Cell NIT Patna',
+      html
+    })
+    
+    return true
+  } catch (error) {
+    console.error('Error sending company welcome email:', error)
+    return false
+  }
+}
+
+export async function sendAccountStatusEmail(user, isActive, reason = '') {
+  const subject = isActive 
+    ? 'Your TNP Portal Account Has Been Reactivated'
+    : 'Your TNP Portal Account Has Been Deactivated'
+
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">
+          ${isActive ? 'Account Reactivated' : 'Account Deactivated'}
+        </h2>
+      </div>
+      
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          Dear ${user.name},
+          ${isActive 
+            ? `Your TNP Portal account has been reactivated. You can now log in and access all portal features.` 
+            : `Your TNP Portal account has been deactivated for the following reason:`
+          }
+        </p>
+        ${!isActive ? `
+          <div style="margin-top: 15px; padding: 10px; background: #fff; border-left: 4px solid #f44336;">
+            <strong>${reason}</strong>
+          </div>
+          <p style="color: #333; margin-top: 15px; line-height: 1.6;">
+            To reactivate your account, please contact us at office.tnp@nitp.ac.in with your details.
+          </p>
+        ` : ''}
+      </div>
+
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated message from Training & Placement Cell, NIT Patna.<br>
+          Please do not reply to this email. If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
+    </div>
+  `
+
+  try {
+    const settings = await getSmtpSettings()
+    const transporter = await createTransporter()
+    
+    await transporter.sendMail({
+      from: settings.from,
+      to: user.email,
+      subject,
+      html
+    })
+    return true
+  } catch (error) {
+    console.error('Failed to send account status email:', error)
+    return false
+  }
+}
+
+export async function sendApplicationSubmittedEmail(studentData, jobData) {
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Application Submitted</h2>
+      </div>
+
+      <p style="color: #333; line-height: 1.6;">Dear ${studentData.name},</p>
+
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          Your application for the position of ${jobData.job_profile} at ${jobData.company_name} has been submitted successfully.
+        </p>
+      </div>  
+
+      <p style="color: #333; line-height: 1.6;">
+        We will notify you of any updates regarding your application status.
+      </p>
+
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>  
+    </div>
+  `
+
+  try {
+    const settings = await getSmtpSettings()
+    const transporter = await createTransporter()
+
+    await transporter.sendMail({
+      from: settings.from,
+      to: studentData.email,
+      subject: 'Application Submitted',
+      html
+    })
+    
+    return true
+  } catch (error) {
+    console.error('Error sending application submitted email:', error)
+    return false
+  }
+}
+
+export async function sendApplicationStatusUpdateEmail(studentData, jobData, status) {
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Application Status Update</h2>
+      </div>
+
+      <p style="color: #333; line-height: 1.6;">Dear ${studentData.name},</p>
+
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          Your application for the position of ${jobData.job_profile} at ${jobData.company_name} has been updated to ${status}.
+        </p>
+      </div>  
+
+      <p style="color: #333; line-height: 1.6;">
+        We will notify you of any updates regarding your application status.
+      </p>
+      
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+      
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
+    </div>
+  `
+
+  try {
+    const settings = await getSmtpSettings()
+    const transporter = await createTransporter()   
+
+    await transporter.sendMail({
+      from: settings.from,
+      to: studentData.email,
+      subject: 'Application Status Update',
+      html
+    })
+
+    return true
+  } catch (error) {
+    console.error('Error sending application status update email:', error)
+    return false
+  }
+} 
+
+export async function sendApplicationRejectedEmail(studentData, jobData) {
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Application Rejected</h2>
+      </div>
+
+      <p style="color: #333; line-height: 1.6;">Dear ${studentData.name},</p>
+
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          Your application for the position of ${jobData.job_profile} at ${jobData.company_name} has been rejected.
+        </p>
+      </div>  
+
+      <p style="color: #333; line-height: 1.6;">
+        We will notify you of any updates regarding your application status.
+      </p>
+
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br>
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>  
+    </div>
+  `
+
+  try {
+    const settings = await getSmtpSettings()
+    const transporter = await createTransporter() 
+
+    await transporter.sendMail({
+      from: settings.from,
+      to: studentData.email,
+      subject: 'Application Rejected',
+      html
+    })  
+
+    return true
+  } catch (error) {
+    console.error('Error sending application rejected email:', error)
+    return false
+  }
+}
+
+export async function sendApplicationShortlistedEmail(studentData, jobData) {
+  const html = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f5f0; padding: 25px; border-radius: 8px; border: 1px solid #e0d6cc;">
+      <div style="border-bottom: 2px solid #8B3A3A; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="color: #8B3A3A; margin: 0; font-weight: 600;">Application Shortlisted</h2>
+      </div>
+
+      <p style="color: #333; line-height: 1.6;">Dear ${studentData.name},</p>
+
+      <div style="background-color: #f0e6e6; padding: 15px; border-left: 4px solid #8B3A3A; margin: 15px 0; border-radius: 0 4px 4px 0;">
+        <p style="color: #333; margin: 0; line-height: 1.6;">
+          Your application for the position of ${jobData.job_profile} at ${jobData.company_name} has been shortlisted.
+        </p>
+      </div>  
+
+      <p style="color: #333; line-height: 1.6;">
+        We will notify you of any updates regarding your application status.
+      </p>
+
+      <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #8B3A3A; font-weight: 600; margin-bottom: 5px;">Best regards,</p>
+        <p style="color: #333; margin: 0; font-weight: 500;">Training & Placement Cell</p>  
+        <p style="color: #8B3A3A; margin: 0; font-weight: 500;">NIT Patna</p>
+      </div>
+
+      <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e0d6cc;">
+        <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
+          🕒 Sent on ${new Date().toLocaleString()}<br> 
+          This is an automated email from Training & Placement Cell, NIT Patna.<br>
+          If you think this email isn't intended for you, please reply with "STOP".
+        </p>
+      </div>
+    </div>
+  `   
+
+  try {
+    const settings = await getSmtpSettings()
+    const transporter = await createTransporter()
+
+    await transporter.sendMail({
+      from: settings.from,
+      to: studentData.email,
+      subject: 'Application Shortlisted',
+      html
+    })
+
+    return true
+  } catch (error) {
+    console.error('Error sending application shortlisted email:', error)
     return false
   }
 }

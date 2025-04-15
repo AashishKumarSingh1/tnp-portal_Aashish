@@ -442,7 +442,15 @@ export default function VerificationsPage() {
                   <>
                     <div className="grid grid-cols-4 items-center gap-4">
                       <span className="font-medium">Company Name:</span>
-                      <span className="col-span-3">{selectedItem.name}</span>
+                      <span className="col-span-3">{selectedItem.company_name}</span>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <span className="font-medium">Website:</span>
+                      <span className="col-span-3">
+                        <a href={selectedItem.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                          {selectedItem.website}
+                        </a>
+                      </span>
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                       <span className="font-medium">Contact Person:</span>
@@ -458,6 +466,84 @@ export default function VerificationsPage() {
                       <span className="font-medium">Email:</span>
                       <span className="col-span-3">{selectedItem.email}</span>
                     </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <span className="font-medium">Phone:</span>
+                      <span className="col-span-3">{selectedItem.phone}</span>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <span className="font-medium">Description:</span>
+                      <span className="col-span-3">{selectedItem.description}</span>
+                    </div>
+                    
+                    {selectedItem.head_office_address && (
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <span className="font-medium">Head Office:</span>
+                        <span className="col-span-3">{selectedItem.head_office_address}</span>
+                      </div>
+                    )}
+                    
+                    {selectedItem.hr_head_name && (
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <span className="font-medium">HR Head:</span>
+                        <span className="col-span-3">
+                          {selectedItem.hr_head_name}
+                          {selectedItem.hr_head_contact && (
+                            <>
+                              <br />
+                              <span className="text-sm text-muted-foreground">
+                                {selectedItem.hr_head_contact}
+                              </span>
+                            </>
+                          )}
+                        </span>
+                      </div>
+                    )}
+                    
+                    {selectedItem.hr_executive_name && (
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <span className="font-medium">HR Executive:</span>
+                        <span className="col-span-3">
+                          {selectedItem.hr_executive_name}
+                          {selectedItem.hr_executive_contact && (
+                            <>
+                              <br />
+                              <span className="text-sm text-muted-foreground">
+                                {selectedItem.hr_executive_contact}
+                              </span>
+                            </>
+                          )}
+                        </span>
+                      </div>
+                    )}
+                    
+                    {selectedItem.total_employees && (
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <span className="font-medium">Total Employees:</span>
+                        <span className="col-span-3">{selectedItem.total_employees}</span>
+                      </div>
+                    )}
+                    
+                    {selectedItem.annual_turnover && (
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <span className="font-medium">Annual Turnover:</span>
+                        <span className="col-span-3">{selectedItem.annual_turnover}</span>
+                      </div>
+                    )}
+                    
+                    {selectedItem.company_category && (
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <span className="font-medium">Company Category:</span>
+                        <span className="col-span-3">{selectedItem.company_category}</span>
+                      </div>
+                    )}
+                    
+                    {selectedItem.industry_sector && (
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <span className="font-medium">Industry Sector:</span>
+                        <span className="col-span-3">{selectedItem.industry_sector}</span>
+                      </div>
+                    )}
+                    
                     <div className="grid grid-cols-4 items-center gap-4">
                       <span className="font-medium">Registration Date:</span>
                       <span className="col-span-3">{formatDate(selectedItem.created_at)}</span>
@@ -476,7 +562,7 @@ export default function VerificationsPage() {
               </Button>
               <Button
                 variant="success"
-                onClick={() => handleVerify(selectedItem.id, 'student', 'verify')}
+                onClick={() => handleVerify(selectedItem.id, activeTab === 'students' ? 'student' : 'company', 'verify')}
                 disabled={verifying}
                 className="bg-green-600 hover:bg-green-700 text-white"
               >
@@ -484,7 +570,7 @@ export default function VerificationsPage() {
               </Button>
               <Button
                 variant="destructive"
-                onClick={() => handleVerify(selectedItem.id, 'student', 'reject')}
+                onClick={() => handleVerify(selectedItem.id, activeTab === 'students' ? 'student' : 'company', 'reject')}
                 disabled={verifying}
               >
                 {verifying ? 'Processing...' : 'Reject'}

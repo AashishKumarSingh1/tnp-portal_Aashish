@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
@@ -13,16 +13,22 @@ import {
   Briefcase,
   ScrollText,
   Award,
-  GraduationCap
+  GraduationCap,
+  Settings
 } from 'lucide-react'
+import { Badge } from "@/components/ui/badge"
 
 export default function StudentDashboard() {
   const { data: session } = useSession()
   const [studentData, setStudentData] = useState(null)
+  const [preferences, setPreferences] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchStudentData()
+    Promise.all([
+      fetchStudentData(),
+      fetchPreferences()
+    ]).finally(() => setLoading(false))
   }, [])
 
   const fetchStudentData = async () => {
@@ -33,8 +39,23 @@ export default function StudentDashboard() {
       setStudentData(data)
     } catch (error) {
       console.error('Error fetching student data:', error)
-    } finally {
-      setLoading(false)
+    }
+  }
+
+  const fetchPreferences = async () => {
+    try {
+      const res = await fetch('/api/student/preferences')
+      if (!res.ok) throw new Error('Failed to fetch preferences')
+      const data = await res.json()
+      if (data.success && data.preferences) {
+        setPreferences({
+          ...data.preferences,
+          preferred_sectors: JSON.parse(data.preferences.preferred_sectors || '[]'),
+          preferred_locations: JSON.parse(data.preferences.preferred_locations || '[]')
+        })
+      }
+    } catch (error) {
+      console.error('Error fetching preferences:', error)
     }
   }
 
@@ -73,6 +94,20 @@ export default function StudentDashboard() {
       icon: <Briefcase className="h-6 w-6" />,
       href: '/student/experience',
       color: 'text-red-500'
+    },
+    {
+      title: 'Job Preferences',
+      description: 'Set your job preferences and career interests',
+      icon: <Settings className="h-6 w-6" />,
+      href: '/student/preferences',
+      color: 'text-orange-500'
+    },
+    {
+      title: 'New Job Announcements',
+      description: 'See all the new job announcements',
+      icon: <ScrollText className="h-6 w-6" />,
+      href: '/student/jobs',
+      color: 'text-indigo-500'
     },
     {
       title: 'Applications',
@@ -123,6 +158,50 @@ export default function StudentDashboard() {
           </Card>
         </div>
       </div>
+
+      {/* Job Preferences Summary */}
+      {preferences && (
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Your Job Preferences</CardTitle>
+            <CardDescription>Quick overview of your career interests</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-medium mb-2">Preferred Sectors</h3>
+                <div className="flex flex-wrap gap-2">
+                  {preferences.preferred_sectors.map(sector => (
+                    <Badge key={sector} variant="secondary">
+                      {sector}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="font-medium mb-2">Preferred Locations</h3>
+                <div className="flex flex-wrap gap-2">
+                  {preferences.preferred_locations.map(location => (
+                    <Badge key={location} variant="secondary">
+                      {location}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h3 className="font-medium">Expected Salary</h3>
+                  <p className="text-muted-foreground">{preferences.expected_salary || 'Not specified'}</p>
+                </div>
+                <div>
+                  <h3 className="font-medium">Willing to Relocate</h3>
+                  <p className="text-muted-foreground">{preferences.willing_to_relocate ? 'Yes' : 'No'}</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {navigationItems.map((item) => (

@@ -118,7 +118,7 @@ export async function POST(request) {
   }
 }
 
-// Get settings
+
 export async function GET_old(request) {
   try {
     const session = await getServerSession(authOptions)
@@ -169,7 +169,7 @@ export async function PATCH(request) {
 
     const { section, settings } = await request.json()
 
-    // Validate section
+ 
     const validSections = ['email', 'security', 'notifications', 'maintenance']
     if (!validSections.includes(section)) {
       return NextResponse.json(
@@ -178,7 +178,7 @@ export async function PATCH(request) {
       )
     }
 
-    // Update settings in database
+
     const columnName = `${section}_settings`
     await executeQuery({
       query: `
@@ -191,7 +191,7 @@ export async function PATCH(request) {
       values: [JSON.stringify(settings), JSON.stringify(settings)]
     })
 
-    // Log activity
+
     await logActivity(
       session.user.id,
       'settings_updated',
@@ -201,8 +201,8 @@ export async function PATCH(request) {
 
     // If maintenance mode is toggled, update application state
     if (section === 'maintenance' && settings.maintenance_mode !== undefined) {
-      // You might want to implement a way to broadcast this change to all connected clients
-      // For example, using WebSocket or Server-Sent Events
+      //We might use it in future to implement a way to broadcast this change to all connected clients
+      
     }
 
     return NextResponse.json({

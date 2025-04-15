@@ -3,6 +3,7 @@ import { executeQuery } from '@/lib/db'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { sendVerificationConfirmationEmail } from '@/lib/email'
+import { sendVerificationRejectionEmail } from '@/lib/email'
 
 // Get pending student verifications
 export async function GET(request) {
@@ -50,7 +51,7 @@ export async function GET(request) {
   }
 }
 
-// Verify or reject student
+
 export async function POST(request) {
   try {
     const session = await getServerSession(authOptions)
@@ -71,10 +72,10 @@ export async function POST(request) {
       )
     }
 
-    // Get student details before updating
+    
     const [student] = await executeQuery({
       query: `
-        SELECT s.full_name, u.email 
+        SELECT s.full_name, u.email ,s.roll_number
         FROM students s
         JOIN users u ON u.id = s.user_id
         WHERE s.id = ?
@@ -89,7 +90,7 @@ export async function POST(request) {
       )
     }
 
-    // Update verification status
+   if(action === 'verify'){
     const result = await executeQuery({
       query: `
         UPDATE students s
@@ -99,12 +100,30 @@ export async function POST(request) {
       values: [action === 'verify' ? 1 : 0, studentId]
     })
 
-    // If verification was successful, send confirmation email
+    
     if (action === 'verify') {
       await sendVerificationConfirmationEmail(student.email, student.full_name)
+    }}
+    else{
+      const result = await executeQuery({
+        query: `
+          DELETE FROM students s
+          WHERE s.id = ?
+        `,
+        values: [studentId]
+      })
+      const userResult = await executeQuery({
+        query: `
+          DELETE FROM users u
+          WHERE u.id = ?
+        `,
+        values: [studentId]
+      });
+      await sendVerificationRejectionEmail(student.email, student.full_name, student.roll_number)
     }
+    
 
-    // Log activity
+    
     await executeQuery({
       query: `
         INSERT INTO activity_logs
@@ -114,7 +133,7 @@ export async function POST(request) {
       values: [
         session.user.id,
         'STUDENT VERIFICATION',
-        JSON.stringify({ studentId, action, studentName: student.full_name }),
+        JSON.stringify({ studentId, action, studentName: student.full_name, roll_number: student.roll_number }),
         '127.0.0.1'
       ]
     })

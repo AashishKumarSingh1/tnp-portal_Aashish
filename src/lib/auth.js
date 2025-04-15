@@ -40,7 +40,7 @@ export const authOptions = {
           }
 
           // For non-admin users, check verification
-          if (!['super_admin', 'admin'].includes(user.role) && !user.is_verified) {
+          if (!['SUPER_ADMIN', 'ADMIN'].includes(user.role) && !user.is_verified) {
             throw new Error('Account is not verified')
           }
 

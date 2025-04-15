@@ -23,7 +23,7 @@ import { Badge } from "@/components/ui/badge"
 import { Plus, FileText, Users, Calendar } from 'lucide-react'
 import { JAFForm } from '@/components/forms/JAFForm'
 import { toast } from 'sonner'
-
+import ProtectedRoute from '@/components/auth/ProtectedRoute'
 export default function JAFPage() {
   const [jafs, setJafs] = useState([])
   const [loading, setLoading] = useState(true)
@@ -65,7 +65,8 @@ export default function JAFPage() {
   }
 
   return (
-    <div className="container mx-auto py-8">
+    <ProtectedRoute allowedRoles={['COMPANY']}>
+    <div className=" mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Job Announcements</h1>
         <Button onClick={() => setShowNewJAFDialog(true)}>
@@ -80,7 +81,7 @@ export default function JAFPage() {
           <TabsTrigger value="closed">Closed JAFs</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="active">
+        <TabsContent value="active" className="px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {jafs.filter(jaf => jaf.job_status === 'Open').map((jaf) => (
               <Card key={jaf.id} className="overflow-hidden border border-border/40 hover:border-red-400 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col">
@@ -255,5 +256,6 @@ export default function JAFPage() {
         </DialogContent>
       </Dialog>
     </div>
+    </ProtectedRoute>
   )
 } 
