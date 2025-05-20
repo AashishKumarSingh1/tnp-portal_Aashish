@@ -53,8 +53,8 @@ const studentCoordinators = [
 ]
 
 const supportStaff = [
-  { id: 1, name: "Mr. Deepak Kumar", position: "Office Incharge TnP" },
-  { id: 2, name: "Mr. Chandan Kumar", position: "Placement Coordinator Assistant" },
+  { id: 1, name: "Mr. Deepak Kumar", position: "Placement Coordinator Assistant",image: "./deepak.jpg" },
+  { id: 2, name: "Mr. Chandan Kumar", position: "Placement Coordinator Assistant",image: "./chandan.jpg" },
   // Add more staff members here if needed
 ];
 
@@ -85,22 +85,31 @@ export default function TeamPage() {
               {
                 name: "Prof. P. K. Jain",
                 role: "Director, NIT Patna",
+                email:"pkjain@nitp.ac.in",
                 image: "https://www.nitp.ac.in/_next/image?url=https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fauthuser%3D0%26sz%3Dw320%26id%3D1uHLAWL2-T5vA-QeUJyISAqSlRp7kyOeW&w=640&q=75",
                 description: "Leading NIT Patna's vision for excellence in technical education and industry collaboration."
               },
               {
-                name: " Dr. Shailesh M Pandey",
+                name: " Dr. Ajay Kumar",
                 role: "Training & Placement Officer",
-                image: "https://www.nitp.ac.in/_next/image?url=https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fauthuser%3D0%26sz%3Dw320%26id%3D1BQn50m_WClExjd8i6yjSlE-h4dOG9NIv&w=640&q=75",
+                image: "./ajay.jpg",
+                email:"ajay.cs@nitp.ac.in",
                 description: "Leading NIT Patna's vision for excellence in technical education and industry collaboration."
               },
-
               {
                 name: "Dr. Samrat Mukherjee",
                 role: "Dean, Student Welfare",
+                email:"samrat@nitp.ac.in",
                 image: "https://www.nitp.ac.in/_next/image?url=https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fauthuser%3D0%26sz%3Dw320%26id%3D1lZlLuEiNG-dZ9vLED4VGk4gqkRqPNIfz&w=640&q=75",
                 description: "Spearheading placement activities and industry relations with over 15 years of experience."
               },
+              {
+                name: "Dr. Santosh Kumar Tripathy",
+                role: "Faculty Coordinator",
+                image: "./santosh.jpg",
+                email:"stripathy.cs@nitp.ac.in",
+                description: "Leading NIT Patna's vision for excellence in technical education and industry collaboration."
+              }
               
             ].map((member, index) => (
               <Card key={index} className="p-6 hover-card bg-gradient-to-br from-background to-red-900/10 dark:from-red-950/20 dark:to-red-900/20">
@@ -109,7 +118,8 @@ export default function TeamPage() {
                   <img src={member.image} alt={member.name} className=" w-32 h-32 rounded-full  text-red-900 dark:text-red-500" /> 
                 </div>
                 <h3 className="text-xl font-semibold text-center mb-2">{member.name}</h3>
-                <p className="text-red-900 dark:text-red-500 text-center text-sm mb-4">{member.role}</p>
+                <p className="text-red-900 dark:text-red-500 text-center text-sm">{member.role}</p>
+                <a href={`mailto:${member.email}`} className="text-muted-foreground text-center text-sm">{member.email}</a>
                 <p className="text-muted-foreground text-center text-sm">{member.description}</p>
               </Card>
             ))}
@@ -183,13 +193,16 @@ export default function TeamPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 gradient-text">Support Staff</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
             {supportStaff.map((staff) => (
-              <Card key={staff.id} className="p-6 hover-card flex flex-col items-center text-center">
-                <div className="w-16 h-16 rounded-full bg-red-900/10 mb-4 flex items-center justify-center flex-shrink-0">
-                  <Briefcase className="w-8 h-8 text-red-900 dark:text-red-500" />
-                </div>
-                <h3 className="text-lg font-semibold mb-1">{staff.name}</h3>
-                <p className="text-red-900 dark:text-red-500 text-sm">{staff.position}</p>
-              </Card>
+              
+              <Card key={staff.id} className="p-6 hover-card bg-gradient-to-br from-background to-red-900/10 dark:from-red-950/20 dark:to-red-900/20">
+              <div className="w-32 h-32 rounded-full bg-red-900/10 mx-auto mb-6 flex items-center justify-center">
+                
+                <img src={staff.image} alt={staff.name} className=" w-32 h-32 rounded-full  text-red-900 dark:text-red-500" /> 
+              </div>
+              <h3 className="text-xl font-semibold text-center mb-2">{staff.name}</h3>
+              <p className="text-red-900 dark:text-red-500 text-center text-sm mb-4">{staff.position}</p>
+             
+            </Card>
             ))}
           </div>
         </div>

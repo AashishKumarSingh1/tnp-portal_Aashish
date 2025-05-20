@@ -32,17 +32,17 @@ const placementData = [
 
 // --- Department Data ---
 const departments = [
-  { name: "Applied Physics and Materials Engineering", Icon: Atom },
-  { name: "Architecture & Planning", Icon: DraftingCompass },
-  { name: "Chemical Science and Technology", Icon: FlaskConical },
-  { name: "Civil Engineering", Icon: Construction },
-  { name: "Computer Science and Engineering", Icon: Laptop },
-  { name: "Electrical Engineering", Icon: Zap },
-  { name: "Electronics and Communication Engineering", Icon: Radio },
-  { name: "Humanities & Social Sciences", Icon: UsersRound },
-  { name: "Mathematics and Computing Technology", Icon: Calculator },
-  { name: "Mechanical Engineering", Icon: Cog },
-  { name: "Mechatronics and Automation Engineering", Icon: Bot },
+  { name: "Applied Physics and Materials Engineering", Icon: Atom ,link: "https://www.nitp.ac.in/Department/Phy" },
+  { name: "Architecture & Planning", Icon: DraftingCompass ,link: "https://www.nitp.ac.in/Department/Archi" },
+  { name: "Chemical Science and Technology", Icon: FlaskConical ,link: "https://www.nitp.ac.in/Department/Chem" },
+  { name: "Civil Engineering", Icon: Construction ,link: "https://www.nitp.ac.in/Department/CE" },
+  { name: "Computer Science and Engineering", Icon: Laptop ,link: "https://www.nitp.ac.in/Department/CSE" },
+  { name: "Electrical Engineering", Icon: Zap ,link: "https://www.nitp.ac.in/Department/EE" },
+  { name: "Electronics and Communication Engineering", Icon: Radio ,link: "https://www.nitp.ac.in/Department/ECE" },
+  { name: "Humanities & Social Sciences", Icon: UsersRound ,link: "https://www.nitp.ac.in/Department/Humanities" },
+  { name: "Mathematics and Computing Technology", Icon: Calculator ,link: "https://www.nitp.ac.in/Department/Math" },
+  { name: "Mechanical Engineering", Icon: Cog ,link: "https://www.nitp.ac.in/Department/ME" },
+  { name: "Mechatronics and Automation Engineering", Icon: Bot ,link: "https://www.nitp.ac.in/Department/Mechatronics" },
 ]
 
 const latestSessionData = placementData[0]; 
@@ -192,10 +192,12 @@ export default function StatisticsClient() {
             <Card className="border-red-900/30 dark:border-red-700/30 rounded-lg shadow-md"> {/* Added themed border */}
               <CardContent className="p-6 md:p-8">
                 <ul className="space-y-4"> {/* Use ul for semantic list */}
-                  {departments.map(({ name, Icon }) => (
+                  {departments.map(({ name, Icon, link }) => (
                     <li key={name} className="flex items-center gap-4 text-base md:text-lg">
                       <Icon className="w-5 h-5 md:w-6 md:h-6 text-red-900 dark:text-red-500 flex-shrink-0" />
-                      <span>{name}</span>
+                      <a href={link} className="text-red-900 dark:text-red-500 hover:text-red-600 dark:hover:text-red-400">
+                        <span>{name}</span>
+                      </a>
                     </li>
                   ))}
                 </ul>

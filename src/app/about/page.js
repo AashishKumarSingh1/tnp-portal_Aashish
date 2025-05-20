@@ -108,13 +108,13 @@ export default function AboutPage() {
                 description: "Leading NIT Patna's vision for excellence in technical education and industry collaboration."
               },
               {
-                name: "Dr. Shailesh M Pandey",
+                name: "Dr. Ajay Kumar",
                 role: "Training & Placement Officer",
                 description: "Leading the placement initiatives with 15+ years of experience"
               },
               {
-                name: "Dr. Samrat Mukherjee",
-                role: "Dean, Student Welfare",
+                name: "Dr. Santosh Kumar Tripathy",
+                role: "Training & Placement Coordinator",
                 description: "Leading the placement initiatives with 15+ years of experience"
               },
               
