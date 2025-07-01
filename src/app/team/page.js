@@ -85,7 +85,7 @@ export default function TeamPage() {
               {
                 name: "Prof. P. K. Jain",
                 role: "Director, NIT Patna",
-                email:"pkjain@nitp.ac.in",
+                email:"director@nitp.ac.in",
                 image: "https://www.nitp.ac.in/_next/image?url=https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fauthuser%3D0%26sz%3Dw320%26id%3D1uHLAWL2-T5vA-QeUJyISAqSlRp7kyOeW&w=640&q=75",
                 description: "Leading NIT Patna's vision for excellence in technical education and industry collaboration."
               },
@@ -93,13 +93,13 @@ export default function TeamPage() {
                 name: " Dr. Ajay Kumar",
                 role: "Training & Placement Officer",
                 image: "./ajay.jpg",
-                email:"ajay.cs@nitp.ac.in",
+                email:"placement@nitp.ac.in",
                 description: "Leading NIT Patna's vision for excellence in technical education and industry collaboration."
               },
               {
                 name: "Dr. Samrat Mukherjee",
                 role: "Dean, Student Welfare",
-                email:"samrat@nitp.ac.in",
+                email:"placement@nitp.ac.in",
                 image: "https://www.nitp.ac.in/_next/image?url=https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fauthuser%3D0%26sz%3Dw320%26id%3D1lZlLuEiNG-dZ9vLED4VGk4gqkRqPNIfz&w=640&q=75",
                 description: "Spearheading placement activities and industry relations with over 15 years of experience."
               },
@@ -107,7 +107,7 @@ export default function TeamPage() {
                 name: "Dr. Santosh Kumar Tripathy",
                 role: "Faculty Coordinator",
                 image: "./santosh.jpg",
-                email:"stripathy.cs@nitp.ac.in",
+                email:"placement@nitp.ac.in",
                 description: "Leading NIT Patna's vision for excellence in technical education and industry collaboration."
               }
               
