@@ -13,6 +13,7 @@ const branchMap = {
   CE: "Civil Engineering",
   ECE: "Electronics and Communication Engineering",
   "B.Arch": "Architecture",
+  "Arch.": "Architecture",
   CSE: "Computer Science and Engineering",
   MTech_ECE: "M.Tech (ECE)",
   MTech_ME: "M.Tech (ME)",
@@ -29,27 +30,24 @@ const getFullBranchName = (branchCode) => {
 
 
 const studentCoordinators = [
-  { rollNo: '2101011', name: 'Aman Sinha', branch: 'ME', mobile: '9973348061', email: 'amans.ug21.me@nitp.ac.in' },
-  { rollNo: '2101013', name: 'Karra Rohith', branch: 'ME', mobile: '7842865464', email: 'karrar.ug21.me@nitp.ac.in' },
-  { rollNo: '2101131', name: 'Pawni Chauhan', branch: 'ME', mobile: '8756160269', email: 'pawnic.ug21.me@nitp.ac.in' },
-  { rollNo: '2102024', name: 'Aditya Manna', branch: 'EE', mobile: '6202642071', email: 'adityamkr.ug21.ee@nitp.ac.in' },
-  { rollNo: '2102040', name: 'Vanshika Singh', branch: 'EE', mobile: '8019474177', email: 'vanshikas.ug21.ee@nitp.ac.in' },
-  { rollNo: '2102133', name: 'Keshav Kumar Jha', branch: 'EE', mobile: '9661308164', email: 'keshavj.ug21.ee@nitp.ac.in' },
-  { rollNo: '2103019', name: 'Pravind Puskar', branch: 'CE', mobile: '7004695641', email: 'pravindp.ug21.ce@nitp.ac.in' },
-  { rollNo: '2103027', name: 'Saurav Kumar', branch: 'CE', mobile: '7416934932', email: 'sauravk.ug21.ce@nitp.ac.in' },
-  { rollNo: '2103094', name: 'Md Shakir Khan', branch: 'CE', mobile: '8528681868', email: 'mohdk.ug21.ce@nitp.ac.in' },
-  { rollNo: '2104120', name: 'Alankrita Singh', branch: 'ECE', mobile: '9569938138', email: 'alankritas.ug21.ec@nitp.ac.in' },
-  { rollNo: '2104167', name: 'Rohan Nagraj Shetty', branch: 'ECE', mobile: '8468976192', email: 'rohans.ug21.ec@nitp.ac.in' },
-  { rollNo: '2104095', name: 'Aditya Raj', branch: 'ECE', mobile: '7634050440', email: 'Adityar.ug21.ec@nitp.ac.in' },
-  { rollNo: '2105027', name: 'Muskan Jha', branch: 'B.Arch', mobile: '9693177540', email: 'muskanj.ug21.ar@nitp.ac.in' },
-  { rollNo: '2106008', name: 'Rohini Kumari', branch: 'CSE', mobile: '6299412084', email: 'rohinik.ug21.cs@nitp.ac.in' },
-  { rollNo: '2106075', name: 'Rakshit Sinha', branch: 'CSE', mobile: '7980618733', email: 'rakshits.ug21.cs@nitp.ac.in' },
-  { rollNo: '2106084', name: 'Aniket Kumar', branch: 'CSE', mobile: '8271824498', email: 'aniketk.ug21.cs@nitp.ac.in' },
-  { rollNo: '2106188', name: 'C Venkata Sumanth', branch: 'CSE', mobile: '7780595030', email: 'chatarasupallis.ug21.cs@nitp.ac.in' },
-  { rollNo: '2340005', name: 'Ayush Kumar', branch: 'M.Tech_ECE', mobile: '9572709951', email: 'aayushk.pg23.ec@nitp.ac.in' },
-  { rollNo: '2334005', name: 'Vidhina Pranayak', branch: 'M.Tech_ME', mobile: '8298777770', email: 'vidhinap.pg23.me@nitp.ac.in' },
-  { rollNo: '2323012', name: 'Amarket Singh', branch: 'M.Tech_CE', mobile: '8806262237', email: 'amarkets.pg23.ce@nitp.ac.in' },
-  { rollNo: '2354006', name: 'Anurag Prakash', branch: 'M.Tech_CSE', mobile: '6204394376', email: 'anuragp.pg23.cs@nitp.ac.in' },
+  { rollNo: '2201091', name: 'Chanchal Mani Tripathi', branch: 'ME', mobile: '8368678483', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2201115', name: 'Piyush Kumar', branch: 'ME', mobile: '7488345261', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2201139', name: 'Preeti Singh', branch: 'ME', mobile: '8303162690', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2202010', name: 'Karishma Kothari', branch: 'EE', mobile: '9263009118', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2202055', name: 'Yashvardhan Singh', branch: 'EE', mobile: '8303536289', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2202144', name: 'Yash Gupta', branch: 'EE', mobile: '9580132826', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2203048', name: 'Aditya Chandra', branch: 'CE', mobile: '9693229132', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2203049', name: 'Aarsi Kumari', branch: 'CE', mobile: '9155314361', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2204018', name: 'Vijay Sharma', branch: 'ECE', mobile: '7627013560', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2204055', name: 'Amit Kumar', branch: 'ECE', mobile: '8617525631', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2204016', name: 'Aishwarya Adak', branch: 'Arch.', mobile: '6296845938', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2205038', name: 'Sanya Pundhir', branch: 'Arch.', mobile: '9520447839', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2206051', name: 'Kushagra', branch: 'CSE', mobile: '9110015673', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2206188', name: 'Abhishek Kumar', branch: 'CSE', mobile: '7366907921', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2206243', name: 'Arpita Dwivedi', branch: 'CSE', mobile: '9450728221', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2206303', name: 'Satyam', branch: 'CSE', mobile: '8210962374', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2424015', name: 'Nishant Kumar Shukla', branch: 'M.Tech_CE', mobile: '9169872336', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2454014', name: 'Shashikant Kumar', branch: 'M.Tech_CSE', mobile: '9534656882', email: 'tpc.tnp@nitp.ac.in' },
 ]
 
 const supportStaff = [
@@ -82,13 +80,6 @@ export default function TeamPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 gradient-text">Leadership</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              {
-                name: "Prof. P. K. Jain",
-                role: "Director, NIT Patna",
-                email:"director@nitp.ac.in",
-                image: "https://www.nitp.ac.in/_next/image?url=https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fauthuser%3D0%26sz%3Dw320%26id%3D1uHLAWL2-T5vA-QeUJyISAqSlRp7kyOeW&w=640&q=75",
-                description: "Leading NIT Patna's vision for excellence in technical education and industry collaboration."
-              },
                {
                 name: "Dr. Samrat Mukherjee",
                 role: "Prof Inchrage (T & P)",
@@ -151,7 +142,12 @@ export default function TeamPage() {
       {/* Student Coordinators */}
       <section className="py-12 md:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 gradient-text">Student Coordinators</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 gradient-text">Training & Placement Coordinators (TPCs)</h2>
+          <div className="text-center mb-8">
+            <p className="text-muted-foreground">
+              Selected for the academic session 2025 – 2026
+            </p>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {studentCoordinators.map((student) => (
               <Card key={student.rollNo} className="p-5 hover-card flex flex-col">
