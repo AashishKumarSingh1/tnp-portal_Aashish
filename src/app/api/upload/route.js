@@ -3,16 +3,31 @@ import { google } from 'googleapis';
 import { getServerSession } from 'next-auth';
 import { Readable } from 'stream';
 
-// Initialize Google Drive API
-const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(process.env.GOOGLE_DRIVE_CREDENTIALS),
-  scopes: ['https://www.googleapis.com/auth/drive.file']
-});
+// Initialize Google Drive API with error handling
+let auth, drive;
 
-const drive = google.drive({ version: 'v3', auth });
+try {
+  if (process.env.GOOGLE_DRIVE_CREDENTIALS) {
+    auth = new google.auth.GoogleAuth({
+      credentials: JSON.parse(process.env.GOOGLE_DRIVE_CREDENTIALS),
+      scopes: ['https://www.googleapis.com/auth/drive.file']
+    });
+    drive = google.drive({ version: 'v3', auth });
+  }
+} catch (error) {
+  console.error('Failed to initialize Google Drive API:', error);
+}
 
 export async function POST(request) {
   try {
+    // Check if Google Drive is properly configured
+    if (!auth || !drive) {
+      return NextResponse.json(
+        { message: 'Google Drive API is not properly configured' },
+        { status: 500 }
+      );
+    }
+
     const session = await getServerSession();
     
     if (!session) {
