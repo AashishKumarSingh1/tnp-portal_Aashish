@@ -87,6 +87,13 @@ export default function TeamPage() {
                 image: "https://www.nitp.ac.in/_next/image?url=https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fauthuser%3D0%26sz%3Dw320%26id%3D1lZlLuEiNG-dZ9vLED4VGk4gqkRqPNIfz&w=640&q=75",
                 description: "Spearheading placement activities and industry relations with over 15 years of experience."
               },
+              {
+                name: "Dr. Chetan Kumar Hirwani",
+                role: "Training & Placement Officer (TPO)",
+                image: "https://i.postimg.cc/5967xg6n/DSC-3112-4x4x6-copy.jpg",
+                email:"placement@nitp.ac.in",
+                description: "Leading NIT Patna's vision for excellence in technical education and industry collaboration."
+              },
               
             {
                 name: " Dr. Ajay Kumar",
