@@ -30,29 +30,29 @@ const getFullBranchName = (branchCode) => {
 
 
 const studentCoordinators = [
-  { rollNo: '2201091', name: 'Chanchal Mani Tripathi', branch: 'ME', mobile: '8368678483', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2201115', name: 'Piyush Kumar', branch: 'ME', mobile: '7488345261', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2201139', name: 'Preeti Singh', branch: 'ME', mobile: '8303162690', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2202010', name: 'Karishma Kothari', branch: 'EE', mobile: '9263009118', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2202055', name: 'Yashvardhan Singh', branch: 'EE', mobile: '8303536289', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2202144', name: 'Yash Gupta', branch: 'EE', mobile: '9580132826', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2206188', name: 'Abhishek Kumar', branch: 'CSE', mobile: '7366907921', email: 'tpc.tnp@nitp.ac.in' },
   { rollNo: '2203048', name: 'Aditya Chandra', branch: 'CE', mobile: '9693229132', email: 'tpc.tnp@nitp.ac.in' },
   { rollNo: '2203049', name: 'Aarsi Kumari', branch: 'CE', mobile: '9155314361', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2204018', name: 'Vijay Sharma', branch: 'ECE', mobile: '7627013560', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2204055', name: 'Amit Kumar', branch: 'ECE', mobile: '8617525631', email: 'tpc.tnp@nitp.ac.in' },
   { rollNo: '2204016', name: 'Aishwarya Adak', branch: 'Arch.', mobile: '6296845938', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2205038', name: 'Sanya Pundhir', branch: 'Arch.', mobile: '9520447839', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2206051', name: 'Kushagra', branch: 'CSE', mobile: '9110015673', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2206188', name: 'Abhishek Kumar', branch: 'CSE', mobile: '7366907921', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2204055', name: 'Amit Kumar', branch: 'ECE', mobile: '8617525631', email: 'tpc.tnp@nitp.ac.in' },
   { rollNo: '2206243', name: 'Arpita Dwivedi', branch: 'CSE', mobile: '9450728221', email: 'tpc.tnp@nitp.ac.in' },
-  { rollNo: '2206303', name: 'Satyam', branch: 'CSE', mobile: '8210962374', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2201091', name: 'Chanchal Mani Tripathi', branch: 'ME', mobile: '8368678483', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2202010', name: 'Karishma Kothari', branch: 'EE', mobile: '9263009118', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2206051', name: 'Kushagra', branch: 'CSE', mobile: '9110015673', email: 'tpc.tnp@nitp.ac.in' },
   { rollNo: '2424015', name: 'Nishant Kumar Shukla', branch: 'M.Tech_CE', mobile: '9169872336', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2201115', name: 'Piyush Kumar', branch: 'ME', mobile: '7488345261', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2201139', name: 'Preeti Singh', branch: 'ME', mobile: '8303162690', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2205038', name: 'Sanya Pundhir', branch: 'Arch.', mobile: '9520447839', email: 'tpc.tnp@nitp.ac.in' },
   { rollNo: '2454014', name: 'Shashikant Kumar', branch: 'M.Tech_CSE', mobile: '9534656882', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2206303', name: 'Satyam', branch: 'CSE', mobile: '8210962374', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2204018', name: 'Vijay Sharma', branch: 'ECE', mobile: '7627013560', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2202144', name: 'Yash Gupta', branch: 'EE', mobile: '9580132826', email: 'tpc.tnp@nitp.ac.in' },
+  { rollNo: '2202055', name: 'Yashvardhan Singh', branch: 'EE', mobile: '8303536289', email: 'tpc.tnp@nitp.ac.in' }
 ]
 
 const supportStaff = [
-  { id: 1, name: "Mr. Deepak Kumar", position: "Placement Coordinator Assistant",image: "./deepak.jpg" },
-  { id: 2, name: "Mr. Chandan Kumar", position: "Placement Coordinator Assistant",image: "./chandan.jpg" },
+  { id: 1, name: "Mr. Deepak Kumar", position: "Assistant",image: "./deepak.jpg" },
+  { id: 2, name: "Mr. Chandan Kumar Jha", position: "Assistant",image: "./chandan.jpg" },
   // Add more staff members here if needed
 ];
 
@@ -195,7 +195,7 @@ export default function TeamPage() {
       {/* Support Staff */}
       <section className="py-12 md:py-20 bg-red-950/5 dark:bg-red-950/10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 gradient-text">Support Staff</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 gradient-text">Training & Placement Assistants</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
             {supportStaff.map((staff) => (
               

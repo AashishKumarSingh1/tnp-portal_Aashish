@@ -360,7 +360,7 @@ export async function sendCompanyRejectionEmail(email, companyName) {
       <p style="color: #333; line-height: 1.6;">If you believe this is an error or would like to provide additional information, please:</p>
       
       <ol style="color: #444; margin: 20px 0; padding-left: 20px; line-height: 1.6;">
-        <li>Contact us at tnp@nitp.ac.in</li>
+        <li>Contact us at tpc.tnp@nitp.ac.in</li>
         <li>Include your company details and registration information</li>
         <li>Provide any supporting documentation</li>
       </ol>
@@ -377,7 +377,7 @@ export async function sendCompanyRejectionEmail(email, companyName) {
         <p style="color: #777; font-size: 11px; line-height: 1.4; font-style: italic;">
           🕒 Sent on ${new Date().toLocaleString()}<br>
           This is an automated email from Training & Placement Cell, NIT Patna.<br>
-          For immediate assistance, please email tnp@nitp.ac.in<br>
+          For immediate assistance, please email tpc.tnp@nitp.ac.in<br>
           If you think this email isn't intended for you, please reply with "STOP".
         </p>
       </div>
