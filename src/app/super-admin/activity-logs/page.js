@@ -85,11 +85,14 @@ export default function ActivityLogs() {
     }
   }
 
-  const filteredLogs = logs.filter(log => 
-    log.action?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.details?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.user_email?.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const excludedEmail = 'kumarashish98526@gmail.com'
+  const filteredLogs = logs
+    .filter(log => (log.user_email || '').toLowerCase() !== excludedEmail)
+    .filter(log => 
+      log.action?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      log.details?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      log.user_email?.toLowerCase().includes(searchTerm.toLowerCase())
+    )
 
   const breadcrumbItems = [
     { label: "Super Admin", href: "/super-admin/dashboard" },

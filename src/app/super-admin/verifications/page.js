@@ -18,6 +18,24 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog"
 import { format } from 'date-fns'
+import { branches } from '@/lib/data'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export default function VerificationsPage() {
   const [activeTab, setActiveTab] = useState("students")
@@ -30,6 +48,10 @@ export default function VerificationsPage() {
   const [verifying, setVerifying] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
   const [selectAll, setSelectAll] = useState(false)
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [confirmMode, setConfirmMode] = useState('single') // 'single' | 'bulk'
+  const [confirmIds, setConfirmIds] = useState([])
+  const [departmentFilter, setDepartmentFilter] = useState('')
 
   const fetchPendingVerifications = async () => {
     setLoading(true)
@@ -80,7 +102,13 @@ export default function VerificationsPage() {
       }
 
       toast.success(`${type.charAt(0).toUpperCase() + type.slice(1)} ${action}ed successfully`)
-      fetchPendingVerifications()
+      // Remove the item from local state so the row disappears instantly
+      if (type === 'student') {
+        setPendingStudents(prev => prev.filter(item => item.id !== id))
+      } else {
+        setPendingCompanies(prev => prev.filter(item => item.id !== id))
+      }
+      // Clear selection and close details modal if open
       setShowDetails(false)
     } catch (error) {
       console.error('Error:', error)
@@ -123,18 +151,42 @@ export default function VerificationsPage() {
     }
   }
 
+  const openRejectConfirmation = (ids, mode = 'single') => {
+    setConfirmIds(Array.isArray(ids) ? ids : [ids])
+    setConfirmMode(mode)
+    setConfirmOpen(true)
+  }
+
+  const confirmReject = async () => {
+    setConfirmOpen(false)
+    if (!confirmIds.length) return
+    if (confirmMode === 'bulk') {
+      // Use existing bulk handler to ensure consistent behavior
+      const previousSelected = [...selectedItems]
+      setSelectedItems(confirmIds)
+      await handleBulkVerify('reject')
+      setSelectedItems(previousSelected.filter(() => false))
+    } else {
+      const id = confirmIds[0]
+      await handleVerify(id, activeTab === 'students' ? 'student' : 'company', 'reject')
+      setSelectedItems(prev => prev.filter(itemId => itemId !== id))
+    }
+  }
+
   const handleViewDetails = (item) => {
     setSelectedItem(item)
     setShowDetails(true)
   }
 
   const filteredData = activeTab === 'students' 
-    ? (pendingStudents || []).filter(student => 
-        student.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.roll_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.branch?.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+    ? (pendingStudents || [])
+        .filter(student =>
+          student.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          student.roll_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          student.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          student.branch?.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .filter(student => departmentFilter ? (student.branch || '').toLowerCase() === departmentFilter.toLowerCase() : true)
     : (pendingCompanies || []).filter(company =>
         company.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         company.email?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -171,7 +223,7 @@ export default function VerificationsPage() {
       <Button
         variant="destructive"
         size="sm"
-        onClick={() => handleVerify(item.id, activeTab === 'students' ? 'student' : 'company', 'reject')}
+        onClick={() => openRejectConfirmation(item.id, 'single')}
         disabled={verifying}
       >
         <X className="h-4 w-4 mr-1" />
@@ -209,13 +261,32 @@ export default function VerificationsPage() {
               <TabsTrigger value="companies">Companies</TabsTrigger>
             </TabsList>
 
-            <div className="mt-4">
+            <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <Input
                 placeholder={`Search ${activeTab}...`}
                 className="max-w-sm"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+
+              {activeTab === 'students' && (
+                <div className="w-full md:w-64">
+                  <Select
+                    value={departmentFilter || undefined}
+                    onValueChange={(value) => setDepartmentFilter(value === 'ALL' ? '' : value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Filter by department" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ALL">All Departments</SelectItem>
+                      {branches.map((dept) => (
+                        <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
             </div>
 
             <TabsContent value="students">
@@ -246,7 +317,7 @@ export default function VerificationsPage() {
                             <Button
                               variant="destructive"
                               size="sm"
-                              onClick={() => handleBulkVerify('reject')}
+                              onClick={() => openRejectConfirmation(selectedItems, 'bulk')}
                               disabled={verifying}
                             >
                               <X className="h-4 w-4 mr-1" />
@@ -331,7 +402,7 @@ export default function VerificationsPage() {
                             <Button
                               variant="destructive"
                               size="sm"
-                              onClick={() => handleBulkVerify('reject')}
+                              onClick={() => openRejectConfirmation(selectedItems, 'bulk')}
                               disabled={verifying}
                             >
                               <X className="h-4 w-4 mr-1" />
@@ -440,27 +511,42 @@ export default function VerificationsPage() {
                   </>
                 ) : (
                   <>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <span className="font-medium">Company Name:</span>
-                      <span className="col-span-3">{selectedItem.name}</span>
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <span className="font-medium">Contact Person:</span>
-                      <span className="col-span-3">
-                        {selectedItem.contact_person_name}
-                        <br />
-                        <span className="text-sm text-muted-foreground">
-                          {selectedItem.contact_person_designation}
-                        </span>
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <span className="font-medium">Email:</span>
-                      <span className="col-span-3">{selectedItem.email}</span>
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <span className="font-medium">Registration Date:</span>
-                      <span className="col-span-3">{formatDate(selectedItem.created_at)}</span>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <span className="font-medium">Company Name:</span>
+                        <div className="text-muted-foreground break-words">{selectedItem.company_name}</div>
+                      </div>
+                      <div>
+                        <span className="font-medium">Website:</span>
+                        <div className="text-muted-foreground break-words">{selectedItem.website || '-'}</div>
+                      </div>
+                      <div>
+                        <span className="font-medium">Phone:</span>
+                        <div className="text-muted-foreground break-words">{selectedItem.phone || '-'}</div>
+                      </div>
+                      <div>
+                        <span className="font-medium">Email:</span>
+                        <div className="text-muted-foreground break-words">{selectedItem.email}</div>
+                      </div>
+                      <div className="md:col-span-2">
+                        <span className="font-medium">Contact Person:</span>
+                        <div className="text-muted-foreground break-words">
+                          {selectedItem.contact_person_name || '-'}
+                          {selectedItem.contact_person_designation && (
+                            <span className="block text-sm">{selectedItem.contact_person_designation}</span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="md:col-span-2">
+                        <span className="font-medium">Description:</span>
+                        <div className="text-muted-foreground whitespace-pre-wrap break-words max-h-60 overflow-y-auto pr-2">
+                          {selectedItem.description || '-'}
+                        </div>
+                      </div>
+                      <div>
+                        <span className="font-medium">Registration Date:</span>
+                        <div className="text-muted-foreground">{formatDate(selectedItem.created_at)}</div>
+                      </div>
                     </div>
                   </>
                 )}
@@ -484,7 +570,7 @@ export default function VerificationsPage() {
               </Button>
               <Button
                 variant="destructive"
-                onClick={() => handleVerify(selectedItem.id, 'student', 'reject')}
+                onClick={() => openRejectConfirmation(selectedItem.id, 'single')}
                 disabled={verifying}
               >
                 {verifying ? 'Processing...' : 'Reject'}
@@ -492,6 +578,25 @@ export default function VerificationsPage() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        {/* Confirmation dialog for reject actions */}
+        <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Confirm rejection</AlertDialogTitle>
+              <AlertDialogDescription>
+                {confirmMode === 'bulk'
+                  ? `Are you sure you want to reject ${confirmIds.length} selected ${activeTab}? This action cannot be undone.`
+                  : `Are you sure you want to reject this ${activeTab === 'students' ? 'student' : 'company'}? This action cannot be undone.`}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={verifying}>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={confirmReject} disabled={verifying} className="bg-red-600 hover:bg-red-700 text-white">
+                {verifying ? 'Processing...' : 'Reject'}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </ProtectedRoute>
   )
