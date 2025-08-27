@@ -61,27 +61,6 @@ export default function StudentDashboard() {
       icon: <FileText className="h-6 w-6" />,
       href: '/company/jaf',
       color: 'text-yellow-500'
-    },
-    {
-      title: 'Experience',
-      description: 'Add your internships and work experience',
-      icon: <Briefcase className="h-6 w-6" />,
-      href: '/student/experience',
-      color: 'text-red-500'
-    },
-    {
-      title: 'Applications',
-      description: 'Track your job applications',
-      icon: <ScrollText className="h-6 w-6" />,
-      href: '/student/applications',
-      color: 'text-indigo-500'
-    },
-    {
-      title: 'Offers',
-      description: 'View your placement offers',
-      icon: <Award className="h-6 w-6" />,
-      href: '/student/offers',
-      color: 'text-pink-500'
     }
   ]
 
