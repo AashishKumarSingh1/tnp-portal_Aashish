@@ -81,10 +81,10 @@ export default function TeamPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
                {
-                name: "Dr. Samrat Mukherjee",
+                name: "Dr. Bharat Gupta",
                 role: "Prof Inchrage (T & P)",
                 email:"placement@nitp.ac.in",
-                image: "https://www.nitp.ac.in/_next/image?url=https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fauthuser%3D0%26sz%3Dw320%26id%3D1lZlLuEiNG-dZ9vLED4VGk4gqkRqPNIfz&w=640&q=75",
+                image: "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=1sj6PJ0DyjOOMlZvfgerow2riwZonI9z0",
                 description: "Spearheading placement activities and industry relations with over 15 years of experience."
               },
               {

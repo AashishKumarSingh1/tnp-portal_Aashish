@@ -246,7 +246,7 @@ export function Header() {
           <div className="flex items-center gap-2 md:gap-6">
             <Link href="/" className="flex items-center space-x-2 group" title="Go to Homepage">
               <Image
-                src="https://www.nitp.ac.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.00e5159e.png&w=64&q=75"
+                src="https://i.postimg.cc/k5CYZwwS/logo.png"
                 alt="NITP Logo"
                 width={40}
                 height={40}
@@ -298,14 +298,18 @@ export function Header() {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
-                    <Link href="/statistics" legacyBehavior passHref>
+                    <Link href="/statistics">
+                      {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                      }
                       <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                         Statistics
                       </NavigationMenuLink>
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
-                    <Link href="/contact" legacyBehavior passHref>
+                    <Link href="/contact">
+                      {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                      }
                       <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                         Contact
                       </NavigationMenuLink>
@@ -374,7 +378,7 @@ export function Header() {
                   <div className="flex flex-col h-full p-4">
                     <Link href="/" className="flex items-center space-x-2 group py-4 mb-6 border-b border-red-900/20">
                       <Image
-                        src="https://www.nitp.ac.in/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.00e5159e.png&w=64&q=75"
+                        src="https://i.postimg.cc/k5CYZwwS/logo.png"
                         alt="NITP Logo"
                         width={32}
                         height={32}
@@ -477,7 +481,7 @@ export function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }
 
 const ListItem = ({ className, title, children, ...props }) => {
